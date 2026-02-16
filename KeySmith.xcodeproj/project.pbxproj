@@ -7,35 +7,64 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		024F2DCF2B1D40E16B5630A6 /* PasswordEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1523E26482651F048EB22935 /* PasswordEntry.swift */; };
+		1A69E80D3775CF74DD22C8EE /* KeySmithKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AB471AB24C4317C114B010E0 /* KeySmithKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		22FCB632015FC25EDB988CE3 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */; };
 		23698F96D5E738635A20D829 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F16CC2986D944D8F56422E0 /* ContentView.swift */; };
 		2DBC05BC2C69506D2722C585 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */; };
 		66C5DDA8E5F4991A40FE2395 /* KeySmithApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639182FBDCAE9AD8687D63BB /* KeySmithApp.swift */; };
 		6D3A60A851BED7BA5CF86EC7 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6EA4F8209D36967AF15B9 /* KeyboardViewController.swift */; };
+		76B347D2CDD52F25B4FC0A2A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B69AE7E7B3D3AA9DDEDA61 /* KeychainManager.swift */; };
+		7C3A647D8A9467E581F2C8C5 /* VaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671214C6554B9E93C750A0C4 /* VaultView.swift */; };
+		93CF62548EC7DBFD8C9AC4D8 /* PasswordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DE257E58D91E50267FE290 /* PasswordStore.swift */; };
 		B7A723AB1696E289B545D1F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A48A6064BA0B716AA2F4E7D7 /* Assets.xcassets */; };
 		C6A85804D02D3DC4808E7951 /* SetupGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81CECADB9FEF91A5263932C /* SetupGuideView.swift */; };
+		E70488974118C133B76500D9 /* GeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FEA2A34DE4525B531E671 /* GeneratorView.swift */; };
+		F479E0D2F965836FD7C039FC /* EditEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB3343D7E3496AFD386FA2F /* EditEntryView.swift */; };
+		F9539919B6CAFCF60712EFE0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FFEDA1A8D5205D43D1920B /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		63167D203D3EAEB1C44C844A /* PBXContainerItemProxy */ = {
+		780FFDB120151E9FABCB329E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BBB6BEA27C43B862322C79A9 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B26F2CE69585FBE028CA71DF;
-			remoteInfo = KeySmith;
+			remoteGlobalIDString = 6280073F9B17EEFFF555CDFD;
+			remoteInfo = KeySmithKeyboard;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BA4C8279B0B76F96319DAABE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1A69E80D3775CF74DD22C8EE /* KeySmithKeyboard.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGenerator.swift; sourceTree = "<group>"; };
+		10B69AE7E7B3D3AA9DDEDA61 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		1523E26482651F048EB22935 /* PasswordEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEntry.swift; sourceTree = "<group>"; };
 		16E6EA4F8209D36967AF15B9 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		1DB3343D7E3496AFD386FA2F /* EditEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEntryView.swift; sourceTree = "<group>"; };
 		2F16CC2986D944D8F56422E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		639182FBDCAE9AD8687D63BB /* KeySmithApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySmithApp.swift; sourceTree = "<group>"; };
+		671214C6554B9E93C750A0C4 /* VaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultView.swift; sourceTree = "<group>"; };
+		71FFEDA1A8D5205D43D1920B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		728AAA3703413E7B978DC441 /* KeySmith.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = KeySmith.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		763FEA2A34DE4525B531E671 /* GeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorView.swift; sourceTree = "<group>"; };
 		84743B9F71FC531A213EF50F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A48A6064BA0B716AA2F4E7D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB471AB24C4317C114B010E0 /* KeySmithKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = KeySmithKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B81CECADB9FEF91A5263932C /* SetupGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGuideView.swift; sourceTree = "<group>"; };
+		E3DE257E58D91E50267FE290 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -63,7 +92,11 @@
 		8B080C110430D147AD71C37B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1DB3343D7E3496AFD386FA2F /* EditEntryView.swift */,
+				763FEA2A34DE4525B531E671 /* GeneratorView.swift */,
+				71FFEDA1A8D5205D43D1920B /* SettingsView.swift */,
 				B81CECADB9FEF91A5263932C /* SetupGuideView.swift */,
+				671214C6554B9E93C750A0C4 /* VaultView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -71,7 +104,10 @@
 		B296D352FAB718587D15C8D9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				10B69AE7E7B3D3AA9DDEDA61 /* KeychainManager.swift */,
+				1523E26482651F048EB22935 /* PasswordEntry.swift */,
 				05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */,
+				E3DE257E58D91E50267FE290 /* PasswordStore.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -106,7 +142,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				7311591B71C919CFAA480101 /* PBXTargetDependency */,
 			);
 			name = KeySmithKeyboard;
 			packageProductDependencies = (
@@ -121,10 +156,12 @@
 			buildPhases = (
 				8D1CD8F0091B2E7A61AAF38A /* Sources */,
 				766E9FA581427854AE19A9D0 /* Resources */,
+				BA4C8279B0B76F96319DAABE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0145B4F7CBF21FF0FEB59FCF /* PBXTargetDependency */,
 			);
 			name = KeySmith;
 			packageProductDependencies = (
@@ -196,19 +233,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				23698F96D5E738635A20D829 /* ContentView.swift in Sources */,
+				F479E0D2F965836FD7C039FC /* EditEntryView.swift in Sources */,
+				E70488974118C133B76500D9 /* GeneratorView.swift in Sources */,
 				66C5DDA8E5F4991A40FE2395 /* KeySmithApp.swift in Sources */,
+				76B347D2CDD52F25B4FC0A2A /* KeychainManager.swift in Sources */,
+				024F2DCF2B1D40E16B5630A6 /* PasswordEntry.swift in Sources */,
 				2DBC05BC2C69506D2722C585 /* PasswordGenerator.swift in Sources */,
+				93CF62548EC7DBFD8C9AC4D8 /* PasswordStore.swift in Sources */,
+				F9539919B6CAFCF60712EFE0 /* SettingsView.swift in Sources */,
 				C6A85804D02D3DC4808E7951 /* SetupGuideView.swift in Sources */,
+				7C3A647D8A9467E581F2C8C5 /* VaultView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7311591B71C919CFAA480101 /* PBXTargetDependency */ = {
+		0145B4F7CBF21FF0FEB59FCF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B26F2CE69585FBE028CA71DF /* KeySmith */;
-			targetProxy = 63167D203D3EAEB1C44C844A /* PBXContainerItemProxy */;
+			target = 6280073F9B17EEFFF555CDFD /* KeySmithKeyboard */;
+			targetProxy = 780FFDB120151E9FABCB329E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

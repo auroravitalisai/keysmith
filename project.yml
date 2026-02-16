@@ -27,6 +27,8 @@ targets:
         PRODUCT_NAME: KeySmith
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
+    dependencies:
+      - target: KeySmithKeyboard
 
   KeySmithKeyboard:
     type: app-extension
@@ -45,6 +47,7 @@ targets:
     info:
       path: KeySmithKeyboard/Info.plist
       properties:
+        CFBundleDisplayName: KeySmith
         NSExtension:
           NSExtensionAttributes:
             IsASCIICapable: false
@@ -53,7 +56,4 @@ targets:
             RequestsOpenAccess: true
           NSExtensionPointIdentifier: com.apple.keyboard-service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
-    dependencies:
-      - target: KeySmith
-        embed: false
-        link: false
+    # no extra dependencies needed
