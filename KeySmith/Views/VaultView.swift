@@ -26,8 +26,10 @@ struct VaultView: View {
                         } label: {
                             Image(systemName: "plus")
                         }
+                        .accessibilityLabel("Add password")
+                        .accessibilityHint("Add a new password entry to the vault")
                     }
-                    
+
                     ToolbarItem(placement: .topBarLeading) {
                         categoryMenu
                     }
@@ -62,6 +64,8 @@ struct VaultView: View {
                 Task { await store.authenticate() }
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityLabel("Unlock vault")
+            .accessibilityHint("Authenticate with biometrics to access your saved passwords")
         }
         .padding()
     }
@@ -88,6 +92,8 @@ struct VaultView: View {
                 Label("Add Password", systemImage: "plus")
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityLabel("Add password")
+            .accessibilityHint("Add a new password entry to the vault")
         }
         .padding()
     }
@@ -124,21 +130,21 @@ struct VaultView: View {
                     .font(.title3)
                     .foregroundStyle(Color.accentColor)
                     .frame(width: 32)
-                
+
                 VStack(alignment: .leading, spacing: 2) {
                     Text(entry.title)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
-                    
+
                     if !entry.username.isEmpty {
                         Text(entry.username)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
-                
+
                 Spacer()
-                
+
                 if entry.isFavorite {
                     Image(systemName: "star.fill")
                         .font(.caption)
@@ -148,6 +154,9 @@ struct VaultView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(entry.title)\(entry.username.isEmpty ? "" : ", \(entry.username)")\(entry.isFavorite ? ", favorite" : "")")
+        .accessibilityHint("Tap to edit, swipe for more options")
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) {
                 store.deleteEntry(entry)
@@ -168,20 +177,22 @@ struct VaultView: View {
         }
         .contextMenu {
             Button {
-                UIPasteboard.general.string = entry.password
-                clearClipboardAfterDelay(entry.password)
+                copyPasswordToClipboard(entry.password)
             } label: {
                 Label("Copy Password", systemImage: "doc.on.doc")
             }
-            
+
             if !entry.username.isEmpty {
                 Button {
-                    UIPasteboard.general.string = entry.username
+                    UIPasteboard.general.setItems(
+                        [[UIPasteboard.typeAutomatic: entry.username]],
+                        options: [.expirationDate: Date().addingTimeInterval(30)]
+                    )
                 } label: {
                     Label("Copy Username", systemImage: "person.crop.circle")
                 }
             }
-            
+
             Button {
                 store.toggleFavorite(entry)
             } label: {
@@ -190,9 +201,9 @@ struct VaultView: View {
                     systemImage: entry.isFavorite ? "star.slash" : "star"
                 )
             }
-            
+
             Divider()
-            
+
             Button(role: .destructive) {
                 store.deleteEntry(entry)
             } label: {
@@ -210,9 +221,9 @@ struct VaultView: View {
             } label: {
                 Label("All", systemImage: "tray.full")
             }
-            
+
             Divider()
-            
+
             ForEach(PasswordEntry.Category.allCases) { category in
                 Button {
                     store.selectedCategory = category
@@ -223,16 +234,17 @@ struct VaultView: View {
         } label: {
             Image(systemName: "line.3.horizontal.decrease.circle")
         }
+        .accessibilityLabel("Filter by category")
+        .accessibilityHint("Filter passwords by category")
     }
-    
+
     // MARK: - Helpers
-    
-    private func clearClipboardAfterDelay(_ password: String) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
-            if UIPasteboard.general.string == password {
-                UIPasteboard.general.string = ""
-            }
-        }
+
+    private func copyPasswordToClipboard(_ password: String) {
+        UIPasteboard.general.setItems(
+            [[UIPasteboard.typeAutomatic: password]],
+            options: [.expirationDate: Date().addingTimeInterval(30)]
+        )
     }
 }
 

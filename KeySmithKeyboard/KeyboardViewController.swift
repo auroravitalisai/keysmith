@@ -213,7 +213,10 @@ class KeyboardViewController: UIInputViewController {
     
     @objc private func copyTapped() {
         guard let text = passwordLabel.text, !text.isEmpty else { return }
-        UIPasteboard.general.string = text
+        UIPasteboard.general.setItems(
+            [[UIPasteboard.typeAutomatic: text]],
+            options: [.expirationDate: Date().addingTimeInterval(30)]
+        )
         flashButton(title: "Copied!")
     }
     
@@ -238,24 +241,31 @@ class KeyboardViewController: UIInputViewController {
     // MARK: - Helpers
     
     private func generateAndDisplay() {
-        var options = PasswordOptions()
-        options.length = currentLength
-        
-        switch selectedStrength {
-        case .pin:
-            options.includeUppercase = false
-            options.includeLowercase = false
-            options.includeNumbers = true
-            options.includeSymbols = false
-        case .basic:
-            options.includeSymbols = false
-        case .strong:
-            break
-        case .paranoid:
-            break
+        let password: String
+
+        if selectedStrength == .passphrase {
+            password = PasswordGenerator.generatePassphrase(wordCount: currentLength)
+        } else {
+            var options = PasswordOptions()
+            options.length = currentLength
+
+            switch selectedStrength {
+            case .pin:
+                options.includeUppercase = false
+                options.includeLowercase = false
+                options.includeNumbers = true
+                options.includeSymbols = false
+            case .basic:
+                options.includeSymbols = false
+            case .strong, .paranoid:
+                break
+            case .passphrase:
+                break // handled above
+            }
+
+            password = PasswordGenerator.generate(options: options)
         }
-        
-        let password = PasswordGenerator.generate(options: options)
+
         passwordLabel.text = password
         updateLengthLabel()
     }

@@ -61,7 +61,10 @@ struct GeneratorView: View {
                 .cornerRadius(12)
                 .contentShape(Rectangle())
                 .onTapGesture { copyPassword() }
-            
+                .accessibilityLabel("Generated password")
+                .accessibilityValue(generatedPassword.isEmpty ? "No password generated" : "Password generated, tap to copy")
+                .accessibilityHint("Tap to copy password to clipboard")
+
             // Strength meter
             if !generatedPassword.isEmpty {
                 strengthMeter
@@ -72,7 +75,7 @@ struct GeneratorView: View {
     private var strengthMeter: some View {
         let strength = PasswordGenerator.estimateStrength(password: generatedPassword)
         let entropy = PasswordGenerator.estimateEntropy(password: generatedPassword)
-        
+
         return VStack(spacing: 4) {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
@@ -85,7 +88,7 @@ struct GeneratorView: View {
                 }
             }
             .frame(height: 6)
-            
+
             HStack {
                 Text(strengthLabel(strength))
                     .font(.caption.weight(.medium))
@@ -96,6 +99,8 @@ struct GeneratorView: View {
                     .foregroundStyle(.secondary)
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Password strength: \(strengthLabel(strength)), \(Int(entropy)) bits of entropy")
     }
     
     // MARK: - Action Buttons (Generate + Copy side by side)
@@ -115,7 +120,9 @@ struct GeneratorView: View {
                         .padding(.vertical, 14)
                 }
                 .buttonStyle(.borderedProminent)
-                
+                .accessibilityLabel("Generate new password")
+                .accessibilityHint("Creates a new random password")
+
                 // Copy button
                 Button {
                     copyPassword()
@@ -127,8 +134,10 @@ struct GeneratorView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(copied ? .green : .orange)
+                .accessibilityLabel(copied ? "Password copied" : "Copy password")
+                .accessibilityHint("Copies the generated password to clipboard")
             }
-            
+
             // Save to vault button (secondary)
             Button {
                 showSaveSheet = true
@@ -139,6 +148,8 @@ struct GeneratorView: View {
                     .padding(.vertical, 10)
             }
             .buttonStyle(.bordered)
+            .accessibilityLabel("Save to vault")
+            .accessibilityHint("Save the generated password to your password vault")
         }
     }
     
@@ -170,11 +181,13 @@ struct GeneratorView: View {
                         .cornerRadius(10)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel("\(strength.rawValue) preset: \(strength.description)")
+                    .accessibilityAddTraits(selectedStrength == strength ? .isSelected : [])
                 }
             }
         }
     }
-    
+
     // MARK: - Length
     
     private var lengthControl: some View {
@@ -194,6 +207,8 @@ struct GeneratorView: View {
                 if !editing { generateNewPassword() }
             }
             .tint(.accentColor)
+            .accessibilityLabel("Password length")
+            .accessibilityValue("\(Int(passwordLength)) characters")
         }
     }
     
@@ -237,24 +252,26 @@ struct GeneratorView: View {
     // MARK: - Actions
     
     private func generateNewPassword() {
-        var options = PasswordOptions()
-        options.length = Int(passwordLength)
-        options.includeUppercase = includeUppercase
-        options.includeLowercase = includeLowercase
-        options.includeNumbers = includeNumbers
-        options.includeSymbols = includeSymbols
-        generatedPassword = PasswordGenerator.generate(options: options)
+        if selectedStrength == .passphrase {
+            generatedPassword = PasswordGenerator.generatePassphrase(wordCount: Int(passwordLength))
+        } else {
+            var options = PasswordOptions()
+            options.length = Int(passwordLength)
+            options.includeUppercase = includeUppercase
+            options.includeLowercase = includeLowercase
+            options.includeNumbers = includeNumbers
+            options.includeSymbols = includeSymbols
+            generatedPassword = PasswordGenerator.generate(options: options)
+        }
         copied = false
     }
     
     private func copyPassword() {
-        UIPasteboard.general.string = generatedPassword
-        // Auto-clear clipboard after 30 seconds for security
-        DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
-            if UIPasteboard.general.string == self.generatedPassword {
-                UIPasteboard.general.string = ""
-            }
-        }
+        // Use native UIPasteboard expiration instead of manual DispatchQueue timer
+        UIPasteboard.general.setItems(
+            [[UIPasteboard.typeAutomatic: generatedPassword]],
+            options: [.expirationDate: Date().addingTimeInterval(30)]
+        )
         withAnimation { copied = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             withAnimation { copied = false }
@@ -278,6 +295,8 @@ struct GeneratorView: View {
             includeLowercase = true
             includeNumbers = true
             includeSymbols = true
+        case .passphrase:
+            break // character toggles don't apply to passphrases
         }
     }
     
