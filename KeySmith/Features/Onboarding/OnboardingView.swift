@@ -44,7 +44,7 @@ struct OnboardingView: View {
                     .foregroundStyle(Theme.textPrimary)
 
                 Text("Your passwords, your device, your rules.")
-                    .font(.title3)
+                    .font(.title2)
                     .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
@@ -107,11 +107,18 @@ struct OnboardingView: View {
 
         return HStack(spacing: Spacing.lg) {
             ForEach(0..<6, id: \.self) { index in
-                Circle()
-                    .fill(index < currentInput.count ? Theme.gold : Theme.dotInactive)
-                    .frame(width: 14, height: 14)
-                    .scaleEffect(index < currentInput.count ? 1.2 : 1.0)
-                    .animation(.spring(duration: 0.2), value: currentInput.count)
+                if index < currentInput.count {
+                    Circle()
+                        .fill(Theme.gold)
+                        .frame(width: 16, height: 16)
+                        .scaleEffect(1.1)
+                        .animation(.spring(duration: 0.2), value: currentInput.count)
+                } else {
+                    Circle()
+                        .stroke(Color.white.opacity(0.8), lineWidth: 2.5)
+                        .frame(width: 16, height: 16)
+                        .animation(.spring(duration: 0.2), value: currentInput.count)
+                }
             }
         }
     }
@@ -141,14 +148,14 @@ struct OnboardingView: View {
     @ViewBuilder
     private func onboardingKey(_ key: String) -> some View {
         if key.isEmpty {
-            Color.clear.frame(width: 64, height: 64)
+            Color.clear.frame(width: 76, height: 76)
         } else if key == "delete" {
             Button {
                 deletePINDigit()
             } label: {
                 Image(systemName: "delete.left")
-                    .font(.title3)
-                    .frame(width: 64, height: 64)
+                    .font(.title2)
+                    .frame(width: 76, height: 76)
             }
             .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
@@ -157,8 +164,8 @@ struct OnboardingView: View {
                 appendPINDigit(key)
             } label: {
                 Text(key)
-                    .font(.title3.bold())
-                    .frame(width: 64, height: 64)
+                    .font(.title.weight(.regular))
+                    .frame(width: 76, height: 76)
             }
             .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)

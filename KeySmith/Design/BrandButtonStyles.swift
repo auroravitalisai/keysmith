@@ -38,19 +38,20 @@ struct BrandSecondaryButtonStyle: ButtonStyle {
 
 /// PIN pad key: circular, subtle white glass on navy
 struct BrandPINKeyStyle: ButtonStyle {
+    /// Apple-style: lighter navy circles with white numbers
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundStyle(Color.white)
-            .font(.title2.bold())
+            .font(.title)
             .background(
                 Circle()
-                    .fill(Color.white.opacity(configuration.isPressed ? 0.3 : 0.15))
+                    .fill(configuration.isPressed ? Theme.pinKeyPressed : Theme.pinKeyNormal)
                     .overlay(
                         Circle()
-                            .stroke(Color.white.opacity(0.25), lineWidth: 0.5)
+                            .stroke(Color.white.opacity(0.15), lineWidth: 1)
                     )
             )
-            .scaleEffect(configuration.isPressed ? 0.92 : 1.0)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
             .animation(.easeInOut(duration: 0.08), value: configuration.isPressed)
     }
 }
