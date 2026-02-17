@@ -50,7 +50,7 @@ struct VaultView: View {
     private var emptyView: some View {
         VStack(spacing: Spacing.lg) {
             Image(systemName: "shield.lefthalf.filled")
-                .font(.system(size: 48))
+                .font(.system(size: Theme.iconSizeSmall))
                 .foregroundStyle(.secondary)
 
             Text("No Saved Passwords")

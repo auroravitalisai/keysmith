@@ -40,7 +40,7 @@ struct LockScreenView: View {
     private var branding: some View {
         VStack(spacing: Spacing.md) {
             Image(systemName: "key.fill")
-                .font(.system(size: 48))
+                .font(.system(size: Theme.iconSizeSmall))
                 .foregroundStyle(Theme.gold)
 
             Text("KeySmith")
@@ -54,7 +54,7 @@ struct LockScreenView: View {
         HStack(spacing: Spacing.lg) {
             ForEach(0..<6, id: \.self) { index in
                 Circle()
-                    .fill(index < enteredPIN.count ? Theme.gold : .white.opacity(0.3))
+                    .fill(index < enteredPIN.count ? Theme.gold : Theme.dotInactive)
                     .frame(width: 14, height: 14)
                     .scaleEffect(index < enteredPIN.count ? 1.2 : 1.0)
                     .animation(.spring(duration: 0.2), value: enteredPIN.count)
@@ -67,13 +67,11 @@ struct LockScreenView: View {
     // MARK: - PIN Pad
 
     private var pinPad: some View {
-        GlassEffectContainer(spacing: Spacing.sm) {
-            VStack(spacing: Spacing.md) {
-                ForEach(numberRows, id: \.self) { row in
-                    HStack(spacing: Spacing.md) {
-                        ForEach(row, id: \.self) { key in
-                            pinKey(key)
-                        }
+        VStack(spacing: Spacing.md) {
+            ForEach(numberRows, id: \.self) { row in
+                HStack(spacing: Spacing.md) {
+                    ForEach(row, id: \.self) { key in
+                        pinKey(key)
                     }
                 }
             }
@@ -150,7 +148,7 @@ struct LockScreenView: View {
                     showPINPad = true
                 }
             }
-            .foregroundStyle(.white.opacity(0.55))
+            .foregroundStyle(Theme.textSecondary)
         }
     }
 

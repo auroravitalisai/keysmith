@@ -26,6 +26,29 @@ enum Theme {
     static let warning = Color(hex: "FBBF24")
     static let danger = Color(hex: "F43F5E")
     static let accent = gold
+
+    // MARK: - Text on Dark Background
+
+    /// Primary text on navy: pure white
+    static let textPrimary = Color.white
+    /// Secondary text on navy: visible but subdued
+    static let textSecondary = Color.white.opacity(0.7)
+    /// Tertiary/hint text on navy
+    static let textTertiary = Color.white.opacity(0.5)
+
+    // MARK: - Interactive Elements on Dark Background
+
+    /// Empty PIN dot, toggle off-state, inactive indicator
+    static let dotInactive = Color.white.opacity(0.5)
+    /// Filled PIN dot
+    static let dotActive = gold
+
+    // MARK: - Icon Sizes (for onboarding/brand screens)
+
+    static let iconSizeHero: CGFloat = 72
+    static let iconSizeLarge: CGFloat = 64
+    static let iconSizeMedium: CGFloat = 56
+    static let iconSizeSmall: CGFloat = 48
 }
 
 // MARK: - Adaptive Gradient Modifier

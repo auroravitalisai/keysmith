@@ -213,7 +213,7 @@ struct ChangePINView: View {
         HStack(spacing: Spacing.lg) {
             ForEach(0..<6, id: \.self) { index in
                 Circle()
-                    .fill(index < input.count ? Color.accentColor : .secondary.opacity(0.3))
+                    .fill(index < input.count ? Theme.accent : Theme.dotInactive)
                     .frame(width: 14, height: 14)
             }
         }
