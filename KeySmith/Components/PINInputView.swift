@@ -21,11 +21,18 @@ struct PINInputView: View {
     private var pinDots: some View {
         HStack(spacing: Spacing.lg) {
             ForEach(0..<maxDigits, id: \.self) { index in
-                Circle()
-                    .fill(index < pin.count ? Theme.gold : Theme.dotInactive)
-                    .frame(width: 14, height: 14)
-                    .scaleEffect(index < pin.count ? 1.2 : 1.0)
-                    .animation(.spring(duration: 0.2), value: pin.count)
+                if index < pin.count {
+                    Circle()
+                        .fill(Theme.gold)
+                        .frame(width: 16, height: 16)
+                        .scaleEffect(1.1)
+                        .animation(.spring(duration: 0.2), value: pin.count)
+                } else {
+                    Circle()
+                        .stroke(Color.white.opacity(0.8), lineWidth: 2.5)
+                        .frame(width: 16, height: 16)
+                        .animation(.spring(duration: 0.2), value: pin.count)
+                }
             }
         }
         .modifier(ShakeEffect(shakes: shakeCount))
@@ -35,13 +42,11 @@ struct PINInputView: View {
     // MARK: - Number Pad
 
     private var numberPad: some View {
-        GlassEffectContainer(spacing: Spacing.sm) {
-            VStack(spacing: Spacing.md) {
-                ForEach(numberRows, id: \.self) { row in
-                    HStack(spacing: Spacing.md) {
-                        ForEach(row, id: \.self) { key in
-                            numberKey(key)
-                        }
+        VStack(spacing: Spacing.md) {
+            ForEach(numberRows, id: \.self) { row in
+                HStack(spacing: Spacing.md) {
+                    ForEach(row, id: \.self) { key in
+                        numberKey(key)
                     }
                 }
             }
@@ -73,7 +78,7 @@ struct PINInputView: View {
                     .font(.title2)
                     .frame(width: 72, height: 72)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
             .accessibilityLabel("Delete")
         } else {
@@ -84,7 +89,7 @@ struct PINInputView: View {
                     .font(.title2.bold())
                     .frame(width: 72, height: 72)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
             .accessibilityLabel(key)
         }

@@ -53,11 +53,18 @@ struct LockScreenView: View {
     private var pinDots: some View {
         HStack(spacing: Spacing.lg) {
             ForEach(0..<6, id: \.self) { index in
-                Circle()
-                    .fill(index < enteredPIN.count ? Theme.gold : Theme.dotInactive)
-                    .frame(width: 14, height: 14)
-                    .scaleEffect(index < enteredPIN.count ? 1.2 : 1.0)
-                    .animation(.spring(duration: 0.2), value: enteredPIN.count)
+                if index < enteredPIN.count {
+                    Circle()
+                        .fill(Theme.gold)
+                        .frame(width: 16, height: 16)
+                        .scaleEffect(1.1)
+                        .animation(.spring(duration: 0.2), value: enteredPIN.count)
+                } else {
+                    Circle()
+                        .stroke(Color.white.opacity(0.8), lineWidth: 2.5)
+                        .frame(width: 16, height: 16)
+                        .animation(.spring(duration: 0.2), value: enteredPIN.count)
+                }
             }
         }
         .modifier(ShakeEffect(shakes: isWrong ? 3 : 0))
@@ -95,13 +102,13 @@ struct LockScreenView: View {
                 Button { attemptBiometric() } label: {
                     Image(systemName: appState.biometricService.biometricIcon)
                         .font(.title2)
-                        .frame(width: 72, height: 72)
+                        .frame(width: 76, height: 76)
                 }
                 .buttonStyle(.brandPINKey)
                 .buttonBorderShape(.circle)
                 .accessibilityLabel(appState.biometricService.biometricName)
             } else {
-                Color.clear.frame(width: 72, height: 72)
+                Color.clear.frame(width: 76, height: 76)
             }
         } else if key == "delete" {
             Button {
@@ -111,7 +118,7 @@ struct LockScreenView: View {
             } label: {
                 Image(systemName: "delete.left")
                     .font(.title2)
-                    .frame(width: 72, height: 72)
+                    .frame(width: 76, height: 76)
             }
             .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
@@ -120,7 +127,7 @@ struct LockScreenView: View {
             Button { appendDigit(key) } label: {
                 Text(key)
                     .font(.title2.bold())
-                    .frame(width: 72, height: 72)
+                    .frame(width: 76, height: 76)
             }
             .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)

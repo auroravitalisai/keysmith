@@ -32,16 +32,23 @@ enum Theme {
     /// Primary text on navy: pure white
     static let textPrimary = Color.white
     /// Secondary text on navy: visible but subdued
-    static let textSecondary = Color.white.opacity(0.7)
+    static let textSecondary = Color.white.opacity(0.85)
     /// Tertiary/hint text on navy
-    static let textTertiary = Color.white.opacity(0.5)
+    static let textTertiary = Color.white.opacity(0.65)
 
     // MARK: - Interactive Elements on Dark Background
 
-    /// Empty PIN dot, toggle off-state, inactive indicator
-    static let dotInactive = Color.white.opacity(0.5)
+    /// Empty PIN dot — hollow ring style for visibility
+    static let dotInactive = Color.white.opacity(0.45)
     /// Filled PIN dot
     static let dotActive = gold
+
+    // MARK: - PIN Pad Keys
+
+    /// PIN key normal state — high contrast on navy
+    static let pinKeyNormal = Color(hex: "6E7CC0")
+    /// PIN key pressed state — brighter for tap feedback
+    static let pinKeyPressed = Color(hex: "8B96D4")
 
     // MARK: - Icon Sizes (for onboarding/brand screens)
 
