@@ -44,10 +44,10 @@ struct BrandPINKeyStyle: ButtonStyle {
             .font(.title2.bold())
             .background(
                 Circle()
-                    .fill(Color.white.opacity(configuration.isPressed ? 0.25 : 0.1))
+                    .fill(Color.white.opacity(configuration.isPressed ? 0.3 : 0.15))
                     .overlay(
                         Circle()
-                            .stroke(Color.white.opacity(0.2), lineWidth: 0.5)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 0.5)
                     )
             )
             .scaleEffect(configuration.isPressed ? 0.92 : 1.0)

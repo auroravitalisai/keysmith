@@ -35,17 +35,17 @@ struct OnboardingView: View {
             Spacer()
 
             Image(systemName: "key.fill")
-                .font(.system(size: 72))
+                .font(.system(size: Theme.iconSizeHero))
                 .foregroundStyle(Theme.gold)
 
             VStack(spacing: Spacing.md) {
                 Text("KeySmith")
                     .font(Typography.display)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Theme.textPrimary)
 
                 Text("Your passwords, your device, your rules.")
                     .font(.title3)
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
 
@@ -73,7 +73,7 @@ struct OnboardingView: View {
 
             VStack(spacing: Spacing.md) {
                 Image(systemName: "lock.fill")
-                    .font(.system(size: 48))
+                    .font(.system(size: Theme.iconSizeSmall))
                     .foregroundStyle(Theme.gold)
 
                 Text(pinStep == .create ? "Create a PIN" : "Confirm Your PIN")
@@ -83,7 +83,7 @@ struct OnboardingView: View {
                      ? "Set a 6-digit PIN to protect your vault."
                      : "Enter your PIN again to confirm.")
                     .font(.subheadline)
-                    .foregroundStyle(.white.opacity(0.55))
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
 
@@ -108,7 +108,7 @@ struct OnboardingView: View {
         return HStack(spacing: Spacing.lg) {
             ForEach(0..<6, id: \.self) { index in
                 Circle()
-                    .fill(index < currentInput.count ? Theme.gold : .white.opacity(0.3))
+                    .fill(index < currentInput.count ? Theme.gold : Theme.dotInactive)
                     .frame(width: 14, height: 14)
                     .scaleEffect(index < currentInput.count ? 1.2 : 1.0)
                     .animation(.spring(duration: 0.2), value: currentInput.count)
@@ -117,13 +117,11 @@ struct OnboardingView: View {
     }
 
     private var pinPadView: some View {
-        GlassEffectContainer(spacing: Spacing.sm) {
-            VStack(spacing: Spacing.md) {
-                ForEach(numberRows, id: \.self) { row in
-                    HStack(spacing: Spacing.md) {
-                        ForEach(row, id: \.self) { key in
-                            onboardingKey(key)
-                        }
+        VStack(spacing: Spacing.md) {
+            ForEach(numberRows, id: \.self) { row in
+                HStack(spacing: Spacing.md) {
+                    ForEach(row, id: \.self) { key in
+                        onboardingKey(key)
                     }
                 }
             }
@@ -174,7 +172,7 @@ struct OnboardingView: View {
             Spacer()
 
             Image(systemName: appState.biometricService.biometricIcon)
-                .font(.system(size: 64))
+                .font(.system(size: Theme.iconSizeLarge))
                 .foregroundStyle(Theme.gold)
 
             VStack(spacing: Spacing.md) {
@@ -183,7 +181,7 @@ struct OnboardingView: View {
 
                 Text("Use \(appState.biometricService.biometricName) for fast access?")
                     .font(.subheadline)
-                    .foregroundStyle(.white.opacity(0.55))
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
 
@@ -202,7 +200,7 @@ struct OnboardingView: View {
                     appState.biometricEnabled = false
                     withAnimation { currentPage = 3 }
                 }
-                .foregroundStyle(.white.opacity(0.55))
+                .foregroundStyle(Theme.textSecondary)
             }
             .padding(.horizontal, Spacing.xxl)
 
@@ -218,7 +216,7 @@ struct OnboardingView: View {
             Spacer()
 
             Image(systemName: "keyboard")
-                .font(.system(size: 56))
+                .font(.system(size: Theme.iconSizeMedium))
                 .foregroundStyle(Theme.gold)
 
             VStack(spacing: Spacing.md) {
@@ -227,7 +225,7 @@ struct OnboardingView: View {
 
                 Text("Generate passwords anywhere with the KeySmith keyboard.")
                     .font(.subheadline)
-                    .foregroundStyle(.white.opacity(0.55))
+                    .foregroundStyle(Theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
 

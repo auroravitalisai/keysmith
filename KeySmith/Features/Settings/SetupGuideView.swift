@@ -43,8 +43,8 @@ struct SetupGuideView: View {
             Text("\(number)")
                 .font(.headline)
                 .frame(width: 32, height: 32)
-                .background(Color.accentColor)
-                .foregroundStyle(.white)
+                .background(Theme.accent)
+                .foregroundStyle(Theme.textPrimary)
                 .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: Spacing.xs) {
