@@ -123,20 +123,24 @@ struct EditEntryView: View {
     }
     
     private func saveEntry() {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespaces)
+        let trimmedUsername = username.trimmingCharacters(in: .whitespaces)
+        let trimmedURL = url.trimmingCharacters(in: .whitespaces)
+
         if var existing = entry {
-            existing.title = title
-            existing.username = username
+            existing.title = trimmedTitle
+            existing.username = trimmedUsername
             existing.password = password
-            existing.url = url
+            existing.url = trimmedURL
             existing.notes = notes
             existing.category = category
             store.updateEntry(existing)
         } else {
             let newEntry = PasswordEntry(
-                title: title,
-                username: username,
+                title: trimmedTitle,
+                username: trimmedUsername,
                 password: password,
-                url: url,
+                url: trimmedURL,
                 notes: notes,
                 category: category
             )

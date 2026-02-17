@@ -11,6 +11,7 @@
 		1A69E80D3775CF74DD22C8EE /* KeySmithKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AB471AB24C4317C114B010E0 /* KeySmithKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		22FCB632015FC25EDB988CE3 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */; };
 		23698F96D5E738635A20D829 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F16CC2986D944D8F56422E0 /* ContentView.swift */; };
+		290D1FDBF027C5D6BFCBB2D0 /* PasswordGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FBDAE374DE62D4CF85DC95 /* PasswordGeneratorTests.swift */; };
 		2DBC05BC2C69506D2722C585 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */; };
 		66C5DDA8E5F4991A40FE2395 /* KeySmithApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639182FBDCAE9AD8687D63BB /* KeySmithApp.swift */; };
 		6D3A60A851BED7BA5CF86EC7 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6EA4F8209D36967AF15B9 /* KeyboardViewController.swift */; };
@@ -26,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		072FE8FE3DA95EA7FB748167 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBB6BEA27C43B862322C79A9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B26F2CE69585FBE028CA71DF;
+			remoteInfo = KeySmith;
+		};
 		780FFDB120151E9FABCB329E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BBB6BEA27C43B862322C79A9 /* Project object */;
@@ -66,6 +74,8 @@
 		AB471AB24C4317C114B010E0 /* KeySmithKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = KeySmithKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B81CECADB9FEF91A5263932C /* SetupGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGuideView.swift; sourceTree = "<group>"; };
 		D7254BDE046ABBDFD5EB40E9 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D8FBDAE374DE62D4CF85DC95 /* PasswordGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorTests.swift; sourceTree = "<group>"; };
+		D91E3D3BDCB7EC04004F37FB /* KeySmithTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KeySmithTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3DE257E58D91E50267FE290 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +85,7 @@
 			children = (
 				7AD92C43D895D1BF4986A379 /* KeySmith */,
 				EA405E0F69EFF62E7E292665 /* KeySmithKeyboard */,
+				927DB9025A8718ECE35C5604 /* KeySmithTests */,
 				D3F4B3B6566E709091E859C3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,6 +115,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		927DB9025A8718ECE35C5604 /* KeySmithTests */ = {
+			isa = PBXGroup;
+			children = (
+				D8FBDAE374DE62D4CF85DC95 /* PasswordGeneratorTests.swift */,
+			);
+			path = KeySmithTests;
+			sourceTree = "<group>";
+		};
 		B296D352FAB718587D15C8D9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +139,7 @@
 			children = (
 				728AAA3703413E7B978DC441 /* KeySmith.app */,
 				AB471AB24C4317C114B010E0 /* KeySmithKeyboard.appex */,
+				D91E3D3BDCB7EC04004F37FB /* KeySmithTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -173,6 +193,24 @@
 			productReference = 728AAA3703413E7B978DC441 /* KeySmith.app */;
 			productType = "com.apple.product-type.application";
 		};
+		CBF96A54DDA558834B4ADB32 /* KeySmithTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CBFDF1DDB56EA02A3BE49B25 /* Build configuration list for PBXNativeTarget "KeySmithTests" */;
+			buildPhases = (
+				CB8050055467570C210BB3D2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				612E1DF013C7BF9F7260F321 /* PBXTargetDependency */,
+			);
+			name = KeySmithTests;
+			packageProductDependencies = (
+			);
+			productName = KeySmithTests;
+			productReference = D91E3D3BDCB7EC04004F37FB /* KeySmithTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -183,10 +221,13 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					6280073F9B17EEFFF555CDFD = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = V9XM91CE3U;
 					};
 					B26F2CE69585FBE028CA71DF = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = V9XM91CE3U;
+					};
+					CBF96A54DDA558834B4ADB32 = {
+						DevelopmentTeam = V9XM91CE3U;
 					};
 				};
 			};
@@ -206,6 +247,7 @@
 			targets = (
 				B26F2CE69585FBE028CA71DF /* KeySmith */,
 				6280073F9B17EEFFF555CDFD /* KeySmithKeyboard */,
+				CBF96A54DDA558834B4ADB32 /* KeySmithTests */,
 			);
 		};
 /* End PBXProject section */
@@ -250,6 +292,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CB8050055467570C210BB3D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				290D1FDBF027C5D6BFCBB2D0 /* PasswordGeneratorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -257,6 +307,11 @@
 			isa = PBXTargetDependency;
 			target = 6280073F9B17EEFFF555CDFD /* KeySmithKeyboard */;
 			targetProxy = 780FFDB120151E9FABCB329E /* PBXContainerItemProxy */;
+		};
+		612E1DF013C7BF9F7260F321 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B26F2CE69585FBE028CA71DF /* KeySmith */;
+			targetProxy = 072FE8FE3DA95EA7FB748167 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -296,7 +351,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = V9XM91CE3U;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -373,7 +428,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = V9XM91CE3U;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -425,6 +480,24 @@
 			};
 			name = Release;
 		};
+		73D1CBA2AEB1B70761B593D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.auroravitalis.keysmith.tests;
+				PRODUCT_NAME = KeySmithTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeySmith.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KeySmith";
+			};
+			name = Debug;
+		};
 		81748956425D3AD2BCFABDCE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -447,6 +520,24 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		894DD9D7D0A3DDECD9A3AE83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.auroravitalis.keysmith.tests;
+				PRODUCT_NAME = KeySmithTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KeySmith.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KeySmith";
+			};
+			name = Release;
 		};
 		B48F1DD11507F30369EB2A9E /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -476,6 +567,15 @@
 			buildConfigurations = (
 				49D0F16574D152FF8715A801 /* Debug */,
 				B48F1DD11507F30369EB2A9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CBFDF1DDB56EA02A3BE49B25 /* Build configuration list for PBXNativeTarget "KeySmithTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73D1CBA2AEB1B70761B593D6 /* Debug */,
+				894DD9D7D0A3DDECD9A3AE83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

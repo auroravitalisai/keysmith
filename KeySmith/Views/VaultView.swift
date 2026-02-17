@@ -18,6 +18,14 @@ struct VaultView: View {
             }
             .navigationTitle("Vault")
             .searchable(text: $store.searchText, prompt: "Search passwords")
+            .alert("Error", isPresented: Binding(
+                get: { store.error != nil },
+                set: { if !$0 { store.error = nil } }
+            )) {
+                Button("OK") { store.error = nil }
+            } message: {
+                Text(store.error ?? "")
+            }
             .toolbar {
                 if store.isUnlocked {
                     ToolbarItem(placement: .primaryAction) {
