@@ -31,8 +31,8 @@ enum Theme {
 
     /// Primary text on navy: pure white
     static let textPrimary = Color.white
-    /// Secondary text on navy: visible but subdued
-    static let textSecondary = Color.white.opacity(0.85)
+    /// Secondary text on navy: clearly readable, slightly softer than primary
+    static let textSecondary = Color.white.opacity(0.92)
     /// Tertiary/hint text on navy
     static let textTertiary = Color.white.opacity(0.65)
 
