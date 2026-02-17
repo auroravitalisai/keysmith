@@ -13,6 +13,8 @@ struct VaultView: View {
                 entryList
             }
         }
+        .scrollContentBackground(.hidden)
+        .adaptiveGradientBackground()
         .navigationTitle("Vault")
         .searchable(text: $store.searchText, prompt: "Search passwords")
         .alert("Error", isPresented: Binding(
