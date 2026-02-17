@@ -16,6 +16,7 @@ struct KeySmithApp: App {
                     MainTabView()
                 }
             }
+            .tint(Theme.gold)
             .environmentObject(appState)
             .onChange(of: scenePhase) { _, newPhase in
                 if newPhase == .background {
