@@ -56,12 +56,8 @@ struct OnboardingView: View {
             } label: {
                 Text("Get Started")
                     .font(.headline)
-                    .foregroundStyle(Theme.navyDark)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, Spacing.lg)
-                    .background(Theme.gold)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
+            .buttonStyle(.brandPrimary)
             .padding(.horizontal, Spacing.xxl)
 
             Spacer().frame(height: Spacing.xxl)
@@ -156,7 +152,7 @@ struct OnboardingView: View {
                     .font(.title3)
                     .frame(width: 64, height: 64)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
         } else {
             Button {
@@ -166,7 +162,7 @@ struct OnboardingView: View {
                     .font(.title3.bold())
                     .frame(width: 64, height: 64)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
         }
     }
@@ -199,12 +195,8 @@ struct OnboardingView: View {
                 } label: {
                     Text("Enable \(appState.biometricService.biometricName)")
                         .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Spacing.md)
                 }
-                .buttonStyle(.glassProminent)
-                .tint(Theme.gold)
-                .controlSize(.large)
+                .buttonStyle(.brandPrimary)
 
                 Button("Skip") {
                     appState.biometricEnabled = false
@@ -247,23 +239,16 @@ struct OnboardingView: View {
                 } label: {
                     Label("Open Settings", systemImage: "gear")
                         .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Spacing.md)
                 }
-                .buttonStyle(.glass)
-                .controlSize(.large)
+                .buttonStyle(.brandSecondary)
 
                 Button {
                     finishOnboarding()
                 } label: {
                     Text("Continue to App")
                         .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Spacing.md)
                 }
-                .buttonStyle(.glassProminent)
-                .tint(Theme.gold)
-                .controlSize(.large)
+                .buttonStyle(.brandPrimary)
             }
             .padding(.horizontal, Spacing.xxl)
 

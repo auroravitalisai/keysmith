@@ -99,7 +99,7 @@ struct LockScreenView: View {
                         .font(.title2)
                         .frame(width: 72, height: 72)
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.brandPINKey)
                 .buttonBorderShape(.circle)
                 .accessibilityLabel(appState.biometricService.biometricName)
             } else {
@@ -115,7 +115,7 @@ struct LockScreenView: View {
                     .font(.title2)
                     .frame(width: 72, height: 72)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
             .accessibilityLabel("Delete")
         } else {
@@ -124,7 +124,7 @@ struct LockScreenView: View {
                     .font(.title2.bold())
                     .frame(width: 72, height: 72)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
             .accessibilityLabel(key)
         }
@@ -141,8 +141,8 @@ struct LockScreenView: View {
                     Label(appState.biometricService.biometricName, systemImage: appState.biometricService.biometricIcon)
                         .font(.headline)
                 }
-                .buttonStyle(.glass)
-                .controlSize(.large)
+                .buttonStyle(.brandSecondary)
+                .padding(.horizontal, Spacing.xxl)
             }
 
             Button("Use PIN") {
