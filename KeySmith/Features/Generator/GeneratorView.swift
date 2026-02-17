@@ -64,34 +64,33 @@ struct GeneratorView: View {
 
     private var actionButtons: some View {
         VStack(spacing: Spacing.md) {
-            GlassEffectContainer(spacing: Spacing.md) {
-                HStack(spacing: Spacing.lg) {
-                    Button {
-                        withAnimation(.spring(duration: 0.2)) {
-                            generateNewPassword()
-                        }
-                        HapticService.medium()
-                    } label: {
-                        Label("Generate", systemImage: "arrow.triangle.2.circlepath")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity)
+            HStack(spacing: Spacing.md) {
+                Button {
+                    withAnimation(.spring(duration: 0.2)) {
+                        generateNewPassword()
                     }
-                    .buttonStyle(.glass)
-                    .controlSize(.large)
-                    .accessibilityLabel("Generate new password")
-
-                    Button {
-                        copyPassword()
-                    } label: {
-                        Label(copied ? "Copied!" : "Copy", systemImage: copied ? "checkmark" : "doc.on.doc")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.glassProminent)
-                    .tint(copied ? Theme.success : Theme.accent)
-                    .controlSize(.large)
-                    .accessibilityLabel(copied ? "Password copied" : "Copy password")
+                    HapticService.medium()
+                } label: {
+                    Label("Generate", systemImage: "arrow.triangle.2.circlepath")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(.ultraThinMaterial, in: Capsule())
                 }
+                .accessibilityLabel("Generate new password")
+
+                Button {
+                    copyPassword()
+                } label: {
+                    Label(copied ? "Copied!" : "Copy", systemImage: copied ? "checkmark" : "doc.on.doc")
+                        .font(.headline)
+                        .foregroundStyle(Theme.navyDark)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(copied ? Theme.success : Theme.accent, in: Capsule())
+                }
+                .accessibilityLabel(copied ? "Password copied" : "Copy password")
             }
 
             Button {
@@ -128,8 +127,10 @@ struct GeneratorView: View {
                             VStack(spacing: 4) {
                                 Image(systemName: strength.icon)
                                     .font(.body)
-                                Text(strength.rawValue)
-                                    .font(.caption.bold())
+                                Text(strength.shortLabel)
+                                    .font(.caption2.bold())
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.8)
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, Spacing.sm)

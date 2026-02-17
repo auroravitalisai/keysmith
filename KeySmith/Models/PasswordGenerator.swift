@@ -20,6 +20,17 @@ enum PasswordStrength: String, CaseIterable, Identifiable {
         }
     }
 
+    /// Short label for compact preset circles
+    var shortLabel: String {
+        switch self {
+        case .pin: return "PIN"
+        case .basic: return "Basic"
+        case .strong: return "Strong"
+        case .paranoid: return "Max"
+        case .passphrase: return "Phrase"
+        }
+    }
+
     var description: String {
         switch self {
         case .pin: return "Numeric only"
