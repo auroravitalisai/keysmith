@@ -15,6 +15,7 @@
 		22FCB632015FC25EDB988CE3 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */; };
 		290D1FDBF027C5D6BFCBB2D0 /* PasswordGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FBDAE374DE62D4CF85DC95 /* PasswordGeneratorTests.swift */; };
 		2DBC05BC2C69506D2722C585 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */; };
+		30C27CA77C0FD6020480CA3B /* BrandButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA80E112585EDEE5A218139 /* BrandButtonStyles.swift */; };
 		35769398B5D8A5180F7362B1 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EB6F6787BCB430D0D9BAD /* Spacing.swift */; };
 		5424B025E2D9D04FADCF8081 /* GeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B9A7F7073258831114F97A /* GeneratorView.swift */; };
 		54DC24D6A41E764C9ACBC829 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 96CF84A8BC730E84E599F5FD /* AppIcon.icon */; };
@@ -104,6 +105,7 @@
 		D8FBDAE374DE62D4CF85DC95 /* PasswordGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorTests.swift; sourceTree = "<group>"; };
 		D91E3D3BDCB7EC04004F37FB /* KeySmithTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = KeySmithTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC34F7E67802CF0AD16619DB /* LockScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenView.swift; sourceTree = "<group>"; };
+		DEA80E112585EDEE5A218139 /* BrandButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandButtonStyles.swift; sourceTree = "<group>"; };
 		E3DE257E58D91E50267FE290 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		F22D336B91DC484CFF13DB62 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
 		F6B9A7F7073258831114F97A /* GeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorView.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		7B158669D23767733A57703F /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				DEA80E112585EDEE5A218139 /* BrandButtonStyles.swift */,
 				580EB6F6787BCB430D0D9BAD /* Spacing.swift */,
 				C4607247E531125652CF3CD9 /* Theme.swift */,
 				71A481096537A48139B092D4 /* Typography.swift */,
@@ -400,6 +403,7 @@
 				9B4C98E1D4FCC534CB04CCB3 /* AppLockManager.swift in Sources */,
 				EF622CCFE3DB293FDCB491B5 /* AppState.swift in Sources */,
 				CFE2E0272B269582E91D50CC /* BiometricService.swift in Sources */,
+				30C27CA77C0FD6020480CA3B /* BrandButtonStyles.swift in Sources */,
 				E5E53621BA433BA5DC63BC4D /* EditEntryView.swift in Sources */,
 				5424B025E2D9D04FADCF8081 /* GeneratorView.swift in Sources */,
 				B1C9C57D4B30BE6C4E3A1D0B /* GlassCard.swift in Sources */,
