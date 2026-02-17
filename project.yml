@@ -7,7 +7,7 @@ options:
 
 settings:
   base:
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: "V9XM91CE3U"
     SWIFT_VERSION: "5.9"
 
 targets:
