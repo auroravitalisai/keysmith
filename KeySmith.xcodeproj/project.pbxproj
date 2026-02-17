@@ -17,6 +17,7 @@
 		2DBC05BC2C69506D2722C585 /* PasswordGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05739C876E4CD2F63EF86206 /* PasswordGenerator.swift */; };
 		35769398B5D8A5180F7362B1 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580EB6F6787BCB430D0D9BAD /* Spacing.swift */; };
 		5424B025E2D9D04FADCF8081 /* GeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B9A7F7073258831114F97A /* GeneratorView.swift */; };
+		54DC24D6A41E764C9ACBC829 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 96CF84A8BC730E84E599F5FD /* AppIcon.icon */; };
 		58D3F34EA0018C81BD0AA9E3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ACEBE3C7BE061CE833C610 /* MainTabView.swift */; };
 		5AD80797E93B8E8EB3500C51 /* PINInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712F7C56900CDFA5B478273 /* PINInputView.swift */; };
 		61CB1FDB9CF9B349B753818D /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22D336B91DC484CFF13DB62 /* HapticService.swift */; };
@@ -92,6 +93,7 @@
 		84743B9F71FC531A213EF50F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8FB62E724F35B355A367EC9C /* KeySmithKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KeySmithKeyboard.entitlements; sourceTree = "<group>"; };
 		91EF2F7028B527787C01AB73 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		96CF84A8BC730E84E599F5FD /* AppIcon.icon */ = {isa = PBXFileReference; path = AppIcon.icon; sourceTree = "<group>"; };
 		A48A6064BA0B716AA2F4E7D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB471AB24C4317C114B010E0 /* KeySmithKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = KeySmithKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B33AA74F1D45C42B0DA06FA1 /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		2E6DF5FA15DD55D10B9DE3B9 = {
 			isa = PBXGroup;
 			children = (
+				96CF84A8BC730E84E599F5FD /* AppIcon.icon */,
 				7AD92C43D895D1BF4986A379 /* KeySmith */,
 				EA405E0F69EFF62E7E292665 /* KeySmithKeyboard */,
 				927DB9025A8718ECE35C5604 /* KeySmithTests */,
@@ -372,6 +375,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54DC24D6A41E764C9ACBC829 /* AppIcon.icon in Resources */,
 				B7A723AB1696E289B545D1F9 /* Assets.xcassets in Resources */,
 				CC8C9D220E056879E61F7F1A /* PrivacyInfo.xcprivacy in Resources */,
 			);

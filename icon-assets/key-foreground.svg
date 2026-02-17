@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Gold key foreground for Icon Composer -->
+  <!-- Background should be set in Icon Composer, not here -->
+  
+  <!-- Key bow (circle with diamond cutout) -->
+  <circle cx="512" cy="340" r="120" fill="none" stroke="#F5B731" stroke-width="28"/>
+  
+  <!-- Diamond inside bow -->
+  <polygon points="512,302 550,340 512,378 474,340" fill="none" stroke="#F5B731" stroke-width="8"/>
+  
+  <!-- Key shaft -->
+  <rect x="498" y="430" width="28" height="280" fill="#F5B731"/>
+  
+  <!-- Key teeth (3 notches on left) -->
+  <rect x="443" y="628" width="55" height="22" fill="#F5B731"/>
+  <rect x="443" y="672" width="55" height="22" fill="#F5B731"/>
+  <rect x="443" y="584" width="55" height="22" fill="#F5B731"/>
+  
+  <!-- Sparkles (upper right) -->
+  <!-- Large sparkle -->
+  <polygon points="632,260 638,272 650,278 638,284 632,296 626,284 614,278 626,272" fill="#F5B731"/>
+  <!-- Medium sparkle -->
+  <polygon points="660,230 664,238 672,242 664,246 660,254 656,246 648,242 656,238" fill="#F5B731"/>
+  <!-- Small sparkle -->
+  <circle cx="618" cy="225" r="4" fill="#F5B731"/>
+</svg>
