@@ -3,7 +3,7 @@ import SwiftUI
 @MainActor
 final class AppState: ObservableObject {
 
-    @Published var isLocked: Bool = true
+    @Published var isLocked: Bool = false
     @Published var hasCompletedOnboarding: Bool
     @AppStorage("selectedTab") var selectedTab: Int = 0
 
@@ -12,6 +12,8 @@ final class AppState: ObservableObject {
 
     init() {
         hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "onboardingComplete")
+        // Only lock if user has set a PIN
+        isLocked = lockManager.hasPIN
     }
 
     var hasPIN: Bool {
@@ -24,6 +26,7 @@ final class AppState: ObservableObject {
     }
 
     func lockApp() {
+        guard hasPIN else { return }
         isLocked = true
     }
 

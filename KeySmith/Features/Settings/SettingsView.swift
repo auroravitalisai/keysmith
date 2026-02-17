@@ -7,8 +7,11 @@ struct SettingsView: View {
     @State private var showChangePIN = false
     @State private var showDeleteConfirm = false
 
+    @AppStorage("appearanceMode") private var appearanceMode: Int = 0  // 0=system, 1=light, 2=dark
+
     var body: some View {
         Form {
+            appearanceSection
             securitySection
             keyboardSection
             privacySection
@@ -20,6 +23,21 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showChangePIN) {
             ChangePINView()
+        }
+    }
+
+    // MARK: - Appearance
+
+    private var appearanceSection: some View {
+        Section("Appearance") {
+            Picker(selection: $appearanceMode) {
+                Text("System").tag(0)
+                Text("Light").tag(1)
+                Text("Dark").tag(2)
+            } label: {
+                Label("Theme", systemImage: "circle.lefthalf.filled")
+            }
+            .pickerStyle(.segmented)
         }
     }
 
@@ -163,13 +181,11 @@ struct ChangePINView: View {
 
                 pinDotsFor(currentInput)
 
-                GlassEffectContainer(spacing: Spacing.sm) {
-                    VStack(spacing: Spacing.md) {
-                        ForEach(numberRows, id: \.self) { row in
-                            HStack(spacing: Spacing.md) {
-                                ForEach(row, id: \.self) { key in
-                                    changePINKey(key)
-                                }
+                VStack(spacing: Spacing.md) {
+                    ForEach(numberRows, id: \.self) { row in
+                        HStack(spacing: Spacing.md) {
+                            ForEach(row, id: \.self) { key in
+                                changePINKey(key)
                             }
                         }
                     }
@@ -227,13 +243,13 @@ struct ChangePINView: View {
             Button { deleteDigit() } label: {
                 Image(systemName: "delete.left").font(.title3).frame(width: 64, height: 64)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
         } else {
             Button { appendDigit(key) } label: {
                 Text(key).font(.title3.bold()).frame(width: 64, height: 64)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
         }
     }

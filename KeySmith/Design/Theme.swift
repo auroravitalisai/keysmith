@@ -8,7 +8,10 @@ enum Theme {
     static let navyDark = Color(hex: "121845")
     static let navyMid = Color(hex: "233064")
     static let navyLight = Color(hex: "324178")
+    /// Gold for dark backgrounds (onboarding, lock, dark mode)
     static let gold = Color(hex: "F5B731")
+    /// Darker gold for light backgrounds — passes WCAG AA on white
+    static let goldOnLight = Color(hex: "996600")
 
     static let darkGradient = LinearGradient(
         colors: [navyDark, navyMid],
@@ -25,7 +28,8 @@ enum Theme {
     static let success = Color(hex: "34D399")
     static let warning = Color(hex: "FBBF24")
     static let danger = Color(hex: "F43F5E")
-    static let accent = gold
+    /// Adaptive accent: use .accentColor for views that need light/dark adaptation
+    static let accent = Color.accentColor
 
     // MARK: - Text on Dark Background
 
