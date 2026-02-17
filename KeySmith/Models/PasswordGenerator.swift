@@ -82,10 +82,8 @@ class PasswordGenerator {
         }
 
         // Ensure at least one character from each enabled category.
-        // Collect all missing categories first, then place them at the end
-        // of the array to avoid overwriting the sole representative of
-        // another category at a low index.
-        var needed: [Character] = []
+        // Collect missing categories, pick distinct random positions,
+        // then place guaranteed characters at those positions.
         let symbolSet = "!@#$%^&*()-_=+[]{}|;:,.<>?"
         let ambiguous = PasswordOptions.ambiguousChars
 
@@ -96,6 +94,7 @@ class PasswordGenerator {
             return Array(source)
         }
 
+        var needed: [Character] = []
         if options.includeLowercase && !passwordChars.contains(where: { $0.isLowercase }) {
             let chars = filtered("abcdefghijklmnopqrstuvwxyz")
             needed.append(chars[secureRandomIndex(upperBound: chars.count)])
@@ -113,9 +112,15 @@ class PasswordGenerator {
             needed.append(chars[secureRandomIndex(upperBound: chars.count)])
         }
 
-        // Place guaranteed characters at the tail end of the array
-        for (i, char) in needed.enumerated() {
-            passwordChars[passwordChars.count - 1 - i] = char
+        if !needed.isEmpty {
+            // Pick distinct random indices for guaranteed characters
+            var indices = Set<Int>()
+            while indices.count < needed.count {
+                indices.insert(secureRandomIndex(upperBound: passwordChars.count))
+            }
+            for (index, char) in zip(indices.sorted(), needed) {
+                passwordChars[index] = char
+            }
         }
 
         // Fisher-Yates shuffle with secure randomness
