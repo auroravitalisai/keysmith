@@ -57,3 +57,18 @@ targets:
           NSExtensionPointIdentifier: com.apple.keyboard-service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
     # no extra dependencies needed
+
+  KeySmithTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: KeySmithTests
+    dependencies:
+      - target: KeySmith
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.auroravitalis.keysmith.tests
+        PRODUCT_NAME: KeySmithTests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/KeySmith.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KeySmith"
+        BUNDLE_LOADER: "$(TEST_HOST)"

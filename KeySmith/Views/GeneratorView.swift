@@ -12,6 +12,7 @@ struct GeneratorView: View {
     @State private var includeSymbols = true
     @State private var copied = false
     @State private var showSaveSheet = false
+    @State private var showEmptyPoolAlert = false
     
     var body: some View {
         NavigationStack {
@@ -42,6 +43,14 @@ struct GeneratorView: View {
                     password: generatedPassword,
                     store: store
                 )
+            }
+            .alert("No Characters Selected", isPresented: $showEmptyPoolAlert) {
+                Button("OK") {
+                    includeLowercase = true
+                    generateNewPassword()
+                }
+            } message: {
+                Text("At least one character type must be enabled. Lowercase has been re-enabled.")
             }
         }
     }
@@ -255,6 +264,10 @@ struct GeneratorView: View {
         if selectedStrength == .passphrase {
             generatedPassword = PasswordGenerator.generatePassphrase(wordCount: Int(passwordLength))
         } else {
+            if !includeUppercase && !includeLowercase && !includeNumbers && !includeSymbols {
+                showEmptyPoolAlert = true
+                return
+            }
             var options = PasswordOptions()
             options.length = Int(passwordLength)
             options.includeUppercase = includeUppercase

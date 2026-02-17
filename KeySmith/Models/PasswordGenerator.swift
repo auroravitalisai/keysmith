@@ -81,28 +81,41 @@ class PasswordGenerator {
             passwordChars.append(poolArray[index])
         }
 
-        // Ensure at least one character from each enabled category
-        var guaranteeIndex = 0
+        // Ensure at least one character from each enabled category.
+        // Collect all missing categories first, then place them at the end
+        // of the array to avoid overwriting the sole representative of
+        // another category at a low index.
+        var needed: [Character] = []
+        let symbolSet = "!@#$%^&*()-_=+[]{}|;:,.<>?"
+        let ambiguous = PasswordOptions.ambiguousChars
+
+        func filtered(_ source: String) -> [Character] {
+            if options.excludeAmbiguous {
+                return Array(source.filter { !ambiguous.contains($0) })
+            }
+            return Array(source)
+        }
 
         if options.includeLowercase && !passwordChars.contains(where: { $0.isLowercase }) {
-            let chars = Array("abcdefghijklmnopqrstuvwxyz")
-            passwordChars[guaranteeIndex] = chars[secureRandomIndex(upperBound: chars.count)]
-            guaranteeIndex += 1
+            let chars = filtered("abcdefghijklmnopqrstuvwxyz")
+            needed.append(chars[secureRandomIndex(upperBound: chars.count)])
         }
         if options.includeUppercase && !passwordChars.contains(where: { $0.isUppercase }) {
-            let chars = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-            passwordChars[guaranteeIndex] = chars[secureRandomIndex(upperBound: chars.count)]
-            guaranteeIndex += 1
+            let chars = filtered("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+            needed.append(chars[secureRandomIndex(upperBound: chars.count)])
         }
         if options.includeNumbers && !passwordChars.contains(where: { $0.isNumber }) {
-            let chars = Array("0123456789")
-            passwordChars[guaranteeIndex] = chars[secureRandomIndex(upperBound: chars.count)]
-            guaranteeIndex += 1
+            let chars = filtered("0123456789")
+            needed.append(chars[secureRandomIndex(upperBound: chars.count)])
         }
-        if options.includeSymbols && !passwordChars.contains(where: { "!@#$%^&*()-_=+[]{}|;:,.<>?".contains($0) }) {
-            let chars = Array("!@#$%^&*()-_=+[]{}|;:,.<>?")
-            passwordChars[guaranteeIndex] = chars[secureRandomIndex(upperBound: chars.count)]
-            guaranteeIndex += 1
+        if options.includeSymbols && !passwordChars.contains(where: { symbolSet.contains($0) }) {
+            let chars = filtered(symbolSet)
+            needed.append(chars[secureRandomIndex(upperBound: chars.count)])
+        }
+
+        // Place guaranteed characters at the tail end of the array
+        for (i, char) in needed.enumerated() {
+            passwordChars[passwordChars.count - 1 - i] = char
         }
 
         // Fisher-Yates shuffle with secure randomness
