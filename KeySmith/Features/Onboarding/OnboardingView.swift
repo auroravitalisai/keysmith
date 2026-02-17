@@ -14,7 +14,7 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            adaptiveGradient
+            Theme.darkGradient
                 .ignoresSafeArea()
 
             TabView(selection: $currentPage) {
@@ -36,15 +36,16 @@ struct OnboardingView: View {
 
             Image(systemName: "key.fill")
                 .font(.system(size: 72))
-                .foregroundStyle(.tint)
+                .foregroundStyle(Theme.gold)
 
             VStack(spacing: Spacing.md) {
                 Text("KeySmith")
                     .font(Typography.display)
+                    .foregroundStyle(.white)
 
                 Text("Your passwords, your device, your rules.")
                     .font(.title3)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.6))
                     .multilineTextAlignment(.center)
             }
 
@@ -55,12 +56,12 @@ struct OnboardingView: View {
             } label: {
                 Text("Get Started")
                     .font(.headline)
+                    .foregroundStyle(Theme.navyDark)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, Spacing.md)
+                    .padding(.vertical, Spacing.lg)
+                    .background(Theme.gold)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
-            .buttonStyle(.glassProminent)
-            .tint(Theme.gold)
-            .controlSize(.large)
             .padding(.horizontal, Spacing.xxl)
 
             Spacer().frame(height: Spacing.xxl)
@@ -77,7 +78,7 @@ struct OnboardingView: View {
             VStack(spacing: Spacing.md) {
                 Image(systemName: "lock.fill")
                     .font(.system(size: 48))
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(Theme.gold)
 
                 Text(pinStep == .create ? "Create a PIN" : "Confirm Your PIN")
                     .font(Typography.headline)
@@ -86,7 +87,7 @@ struct OnboardingView: View {
                      ? "Set a 6-digit PIN to protect your vault."
                      : "Enter your PIN again to confirm.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.55))
                     .multilineTextAlignment(.center)
             }
 
@@ -111,7 +112,7 @@ struct OnboardingView: View {
         return HStack(spacing: Spacing.lg) {
             ForEach(0..<6, id: \.self) { index in
                 Circle()
-                    .fill(index < currentInput.count ? Color.accentColor : .secondary.opacity(0.3))
+                    .fill(index < currentInput.count ? Theme.gold : .white.opacity(0.3))
                     .frame(width: 14, height: 14)
                     .scaleEffect(index < currentInput.count ? 1.2 : 1.0)
                     .animation(.spring(duration: 0.2), value: currentInput.count)
@@ -178,7 +179,7 @@ struct OnboardingView: View {
 
             Image(systemName: appState.biometricService.biometricIcon)
                 .font(.system(size: 64))
-                .foregroundStyle(.tint)
+                .foregroundStyle(Theme.gold)
 
             VStack(spacing: Spacing.md) {
                 Text("Quick Unlock")
@@ -186,7 +187,7 @@ struct OnboardingView: View {
 
                 Text("Use \(appState.biometricService.biometricName) for fast access?")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.55))
                     .multilineTextAlignment(.center)
             }
 
@@ -209,7 +210,7 @@ struct OnboardingView: View {
                     appState.biometricEnabled = false
                     withAnimation { currentPage = 3 }
                 }
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.white.opacity(0.55))
             }
             .padding(.horizontal, Spacing.xxl)
 
@@ -226,7 +227,7 @@ struct OnboardingView: View {
 
             Image(systemName: "keyboard")
                 .font(.system(size: 56))
-                .foregroundStyle(.tint)
+                .foregroundStyle(Theme.gold)
 
             VStack(spacing: Spacing.md) {
                 Text("Keyboard Extension")
@@ -234,7 +235,7 @@ struct OnboardingView: View {
 
                 Text("Generate passwords anywhere with the KeySmith keyboard.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.white.opacity(0.55))
                     .multilineTextAlignment(.center)
             }
 
@@ -272,18 +273,6 @@ struct OnboardingView: View {
     }
 
     // MARK: - Adaptive Gradient
-
-    @Environment(\.colorScheme) private var colorScheme
-
-    private var adaptiveGradient: some View {
-        Group {
-            if colorScheme == .dark {
-                Theme.darkGradient
-            } else {
-                Theme.lightGradient
-            }
-        }
-    }
 
     // MARK: - PIN Actions
 
