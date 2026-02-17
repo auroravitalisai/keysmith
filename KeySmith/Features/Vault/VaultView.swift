@@ -67,7 +67,7 @@ struct VaultView: View {
                 Label("Add Password", systemImage: "plus")
             }
             .buttonStyle(.glassProminent)
-            .tint(Theme.gold)
+            .tint(Theme.accent)
             .controlSize(.large)
             .accessibilityLabel("Add password")
         }
@@ -148,7 +148,7 @@ struct VaultView: View {
                     systemImage: entry.isFavorite ? "star.slash" : "star.fill"
                 )
             }
-            .tint(.yellow)
+            .tint(Theme.accent)
         }
         .contextMenu {
             Button {

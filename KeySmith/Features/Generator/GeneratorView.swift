@@ -88,7 +88,7 @@ struct GeneratorView: View {
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.glassProminent)
-                    .tint(copied ? Theme.success : Theme.gold)
+                    .tint(copied ? Theme.success : Theme.accent)
                     .controlSize(.large)
                     .accessibilityLabel(copied ? "Password copied" : "Copy password")
                 }
@@ -137,7 +137,7 @@ struct GeneratorView: View {
                         .buttonStyle(.glass)
                         .glassEffect(
                             selectedStrength == strength
-                                ? .regular.tint(Theme.gold).interactive()
+                                ? .regular.tint(Theme.accent).interactive()
                                 : .regular.interactive()
                         )
                         .accessibilityLabel("\(strength.rawValue) preset: \(strength.description)")
