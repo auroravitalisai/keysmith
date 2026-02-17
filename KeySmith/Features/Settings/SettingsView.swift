@@ -17,6 +17,8 @@ struct SettingsView: View {
             privacySection
             aboutSection
         }
+        .scrollContentBackground(.hidden)
+        .adaptiveGradientBackground()
         .navigationTitle("Settings")
         .sheet(isPresented: $showSetupGuide) {
             SetupGuideView()
