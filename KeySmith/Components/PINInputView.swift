@@ -22,7 +22,7 @@ struct PINInputView: View {
         HStack(spacing: Spacing.lg) {
             ForEach(0..<maxDigits, id: \.self) { index in
                 Circle()
-                    .fill(index < pin.count ? Color.accentColor : .secondary.opacity(0.3))
+                    .fill(index < pin.count ? Theme.gold : .white.opacity(0.3))
                     .frame(width: 14, height: 14)
                     .scaleEffect(index < pin.count ? 1.2 : 1.0)
                     .animation(.spring(duration: 0.2), value: pin.count)

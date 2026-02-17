@@ -8,7 +8,7 @@ struct LockScreenView: View {
 
     var body: some View {
         ZStack {
-            adaptiveGradient
+            Theme.darkGradient
                 .ignoresSafeArea()
 
             VStack(spacing: Spacing.xxl) {
@@ -41,7 +41,7 @@ struct LockScreenView: View {
         VStack(spacing: Spacing.md) {
             Image(systemName: "key.fill")
                 .font(.system(size: 48))
-                .foregroundStyle(.tint)
+                .foregroundStyle(Theme.gold)
 
             Text("KeySmith")
                 .font(Typography.display)
@@ -54,7 +54,7 @@ struct LockScreenView: View {
         HStack(spacing: Spacing.lg) {
             ForEach(0..<6, id: \.self) { index in
                 Circle()
-                    .fill(index < enteredPIN.count ? Color.accentColor : .secondary.opacity(0.3))
+                    .fill(index < enteredPIN.count ? Theme.gold : .white.opacity(0.3))
                     .frame(width: 14, height: 14)
                     .scaleEffect(index < enteredPIN.count ? 1.2 : 1.0)
                     .animation(.spring(duration: 0.2), value: enteredPIN.count)
@@ -150,7 +150,7 @@ struct LockScreenView: View {
                     showPINPad = true
                 }
             }
-            .foregroundStyle(.secondary)
+            .foregroundStyle(.white.opacity(0.55))
         }
     }
 
@@ -164,18 +164,6 @@ struct LockScreenView: View {
     }
 
     // MARK: - Adaptive Gradient
-
-    @Environment(\.colorScheme) private var colorScheme
-
-    private var adaptiveGradient: some View {
-        Group {
-            if colorScheme == .dark {
-                Theme.darkGradient
-            } else {
-                Theme.lightGradient
-            }
-        }
-    }
 
     // MARK: - Actions
 
