@@ -3,111 +3,79 @@ import SwiftUI
 struct VaultView: View {
     @ObservedObject var store: PasswordStore
     @State private var showAddSheet = false
-    @State private var selectedEntry: PasswordEntry? = nil
-    
-    var body: some View {
-        NavigationStack {
-            Group {
-                if !store.isUnlocked {
-                    lockedView
-                } else if store.entries.isEmpty {
-                    emptyView
-                } else {
-                    entryList
-                }
-            }
-            .navigationTitle("Vault")
-            .searchable(text: $store.searchText, prompt: "Search passwords")
-            .alert("Error", isPresented: Binding(
-                get: { store.error != nil },
-                set: { if !$0 { store.error = nil } }
-            )) {
-                Button("OK") { store.error = nil }
-            } message: {
-                Text(store.error ?? "")
-            }
-            .toolbar {
-                if store.isUnlocked {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            showAddSheet = true
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                        .accessibilityLabel("Add password")
-                        .accessibilityHint("Add a new password entry to the vault")
-                    }
+    @State private var selectedEntry: PasswordEntry?
 
-                    ToolbarItem(placement: .topBarLeading) {
-                        categoryMenu
-                    }
+    var body: some View {
+        Group {
+            if store.entries.isEmpty {
+                emptyView
+            } else {
+                entryList
+            }
+        }
+        .navigationTitle("Vault")
+        .searchable(text: $store.searchText, prompt: "Search passwords")
+        .alert("Error", isPresented: Binding(
+            get: { store.error != nil },
+            set: { if !$0 { store.error = nil } }
+        )) {
+            Button("OK") { store.error = nil }
+        } message: {
+            Text(store.error ?? "")
+        }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showAddSheet = true
+                } label: {
+                    Image(systemName: "plus")
                 }
+                .accessibilityLabel("Add password")
             }
-            .sheet(isPresented: $showAddSheet) {
-                EditEntryView(store: store, entry: nil)
-            }
-            .sheet(item: $selectedEntry) { entry in
-                EditEntryView(store: store, entry: entry)
+
+            ToolbarItem(placement: .topBarLeading) {
+                categoryMenu
             }
         }
-    }
-    
-    // MARK: - Locked
-    
-    private var lockedView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "lock.fill")
-                .font(.system(size: 48))
-                .foregroundStyle(.secondary)
-            
-            Text("Vault Locked")
-                .font(.title2.weight(.semibold))
-            
-            Text("Authenticate to access your saved passwords")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-            
-            Button("Unlock") {
-                Task { await store.authenticate() }
-            }
-            .buttonStyle(.borderedProminent)
-            .accessibilityLabel("Unlock vault")
-            .accessibilityHint("Authenticate with biometrics to access your saved passwords")
+        .sheet(isPresented: $showAddSheet) {
+            EditEntryView(store: store, entry: nil)
         }
-        .padding()
+        .sheet(item: $selectedEntry) { entry in
+            EditEntryView(store: store, entry: entry)
+        }
     }
-    
+
     // MARK: - Empty
-    
+
     private var emptyView: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: Spacing.lg) {
             Image(systemName: "shield.lefthalf.filled")
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
-            
+
             Text("No Saved Passwords")
                 .font(.title3.weight(.semibold))
-            
+
             Text("Generate a password and save it to your vault, or add one manually.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            
+
             Button {
                 showAddSheet = true
             } label: {
                 Label("Add Password", systemImage: "plus")
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.glassProminent)
+            .tint(Theme.gold)
+            .controlSize(.large)
             .accessibilityLabel("Add password")
-            .accessibilityHint("Add a new password entry to the vault")
         }
         .padding()
     }
-    
-    // MARK: - Entry List
-    
+
+    // MARK: - Entry List (auto-glass via iOS 26 List)
+
     private var entryList: some View {
         List {
             if !store.favoriteEntries.isEmpty && store.selectedCategory == nil {
@@ -117,7 +85,7 @@ struct VaultView: View {
                     }
                 }
             }
-            
+
             Section(store.selectedCategory?.rawValue ?? "All Passwords") {
                 ForEach(store.filteredEntries) { entry in
                     entryRow(entry)
@@ -128,15 +96,15 @@ struct VaultView: View {
             }
         }
     }
-    
+
     private func entryRow(_ entry: PasswordEntry) -> some View {
         Button {
             selectedEntry = entry
         } label: {
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.md) {
                 Image(systemName: entry.category.icon)
                     .font(.title3)
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(.tint)
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -164,7 +132,6 @@ struct VaultView: View {
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(entry.title)\(entry.username.isEmpty ? "" : ", \(entry.username)")\(entry.isFavorite ? ", favorite" : "")")
-        .accessibilityHint("Tap to edit, swipe for more options")
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) {
                 store.deleteEntry(entry)
@@ -185,17 +152,14 @@ struct VaultView: View {
         }
         .contextMenu {
             Button {
-                copyPasswordToClipboard(entry.password)
+                copyToClipboard(entry.password)
             } label: {
                 Label("Copy Password", systemImage: "doc.on.doc")
             }
 
             if !entry.username.isEmpty {
                 Button {
-                    UIPasteboard.general.setItems(
-                        [[UIPasteboard.typeAutomatic: entry.username]],
-                        options: [.expirationDate: Date().addingTimeInterval(30)]
-                    )
+                    copyToClipboard(entry.username)
                 } label: {
                     Label("Copy Username", systemImage: "person.crop.circle")
                 }
@@ -219,9 +183,9 @@ struct VaultView: View {
             }
         }
     }
-    
+
     // MARK: - Category Filter
-    
+
     private var categoryMenu: some View {
         Menu {
             Button {
@@ -243,19 +207,15 @@ struct VaultView: View {
             Image(systemName: "line.3.horizontal.decrease.circle")
         }
         .accessibilityLabel("Filter by category")
-        .accessibilityHint("Filter passwords by category")
     }
 
     // MARK: - Helpers
 
-    private func copyPasswordToClipboard(_ password: String) {
+    private func copyToClipboard(_ text: String) {
         UIPasteboard.general.setItems(
-            [[UIPasteboard.typeAutomatic: password]],
+            [[UIPasteboard.typeAutomatic: text]],
             options: [.expirationDate: Date().addingTimeInterval(30)]
         )
+        HapticService.medium()
     }
-}
-
-#Preview {
-    VaultView(store: PasswordStore())
 }

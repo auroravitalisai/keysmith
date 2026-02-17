@@ -4,13 +4,13 @@ import Security
 /// Manages secure storage of password entries in the iOS Keychain.
 /// Uses kSecClassGenericPassword with app-specific service identifier.
 /// Data is encrypted at rest by the Secure Enclave.
-final class KeychainManager {
+final class KeychainManager: Sendable {
     
     static let shared = KeychainManager()
     
     private let service = "com.auroravitalis.keysmith.vault"
     private let account = "password-entries"
-    private let accessGroup: String? = nil // Use default app group; set for keyboard extension sharing
+    private let accessGroup: String? = "$(AppIdentifierPrefix)com.auroravitalis.keysmith.shared"
     
     private init() {}
     
