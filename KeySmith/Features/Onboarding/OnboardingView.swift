@@ -18,54 +18,41 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
 
             TabView(selection: $currentPage) {
-                welcomePage.tag(0)
+                OnboardingWelcomePage {
+                    withAnimation { currentPage = 1 }
+                }.tag(0)
+
                 createPINPage.tag(1)
-                biometricPage.tag(2)
-                keyboardPage.tag(3)
+
+                OnboardingBiometricPage(
+                    biometricIcon: appState.biometricService.biometricIcon,
+                    biometricName: appState.biometricService.biometricName,
+                    onEnable: {
+                        appState.biometricEnabled = true
+                        HapticService.success()
+                        withAnimation { currentPage = 3 }
+                    },
+                    onSkip: {
+                        appState.biometricEnabled = false
+                        withAnimation { currentPage = 3 }
+                    }
+                ).tag(2)
+
+                OnboardingKeyboardPage(
+                    onOpenSettings: {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    },
+                    onContinue: finishOnboarding
+                ).tag(3)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .indexViewStyle(.page(backgroundDisplayMode: .always))
         }
     }
 
-    // MARK: - Page 1: Welcome
-
-    private var welcomePage: some View {
-        VStack(spacing: Spacing.xxl) {
-            Spacer()
-
-            Image(systemName: "key.fill")
-                .font(.system(size: Theme.iconSizeHero))
-                .foregroundStyle(Theme.gold)
-
-            VStack(spacing: Spacing.md) {
-                Text("KeySmith")
-                    .font(Typography.display)
-                    .foregroundStyle(Theme.textPrimary)
-
-                Text("Your passwords, your device, your rules.")
-                    .font(.title2)
-                    .foregroundStyle(Theme.textSecondary)
-                    .multilineTextAlignment(.center)
-            }
-
-            Spacer()
-
-            Button {
-                withAnimation { currentPage = 1 }
-            } label: {
-                Text("Get Started")
-                    .font(.headline)
-            }
-            .buttonStyle(.brandPrimary)
-            .padding(.horizontal, Spacing.xxl)
-
-            Spacer().frame(height: Spacing.xxl)
-        }
-        .padding(.horizontal, Spacing.xl)
-    }
-
-    // MARK: - Page 2: Create PIN
+    // MARK: - Create PIN Page
 
     private var createPINPage: some View {
         VStack(spacing: Spacing.xxl) {
@@ -88,7 +75,6 @@ struct OnboardingView: View {
             }
 
             pinDotsView
-
             pinPadView
 
             if pinMismatch {
@@ -124,8 +110,9 @@ struct OnboardingView: View {
     }
 
     private var pinPadView: some View {
-        VStack(spacing: Spacing.md) {
-            ForEach(numberRows, id: \.self) { row in
+        let rows = [["1","2","3"],["4","5","6"],["7","8","9"],["","0","delete"]]
+        return VStack(spacing: Spacing.md) {
+            ForEach(rows, id: \.self) { row in
                 HStack(spacing: Spacing.md) {
                     ForEach(row, id: \.self) { key in
                         onboardingKey(key)
@@ -134,15 +121,6 @@ struct OnboardingView: View {
             }
         }
         .padding(.horizontal, Spacing.lg)
-    }
-
-    private var numberRows: [[String]] {
-        [
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-            ["7", "8", "9"],
-            ["", "0", "delete"],
-        ]
     }
 
     @ViewBuilder
@@ -171,98 +149,6 @@ struct OnboardingView: View {
             .buttonBorderShape(.circle)
         }
     }
-
-    // MARK: - Page 3: Biometric
-
-    private var biometricPage: some View {
-        VStack(spacing: Spacing.xxl) {
-            Spacer()
-
-            Image(systemName: appState.biometricService.biometricIcon)
-                .font(.system(size: Theme.iconSizeLarge))
-                .foregroundStyle(Theme.gold)
-
-            VStack(spacing: Spacing.md) {
-                Text("Quick Unlock")
-                    .font(Typography.headline)
-
-                Text("Use \(appState.biometricService.biometricName) for fast access?")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.textSecondary)
-                    .multilineTextAlignment(.center)
-            }
-
-            VStack(spacing: Spacing.lg) {
-                Button {
-                    appState.biometricEnabled = true
-                    HapticService.success()
-                    withAnimation { currentPage = 3 }
-                } label: {
-                    Text("Enable \(appState.biometricService.biometricName)")
-                        .font(.headline)
-                }
-                .buttonStyle(.brandPrimary)
-
-                Button("Skip") {
-                    appState.biometricEnabled = false
-                    withAnimation { currentPage = 3 }
-                }
-                .foregroundStyle(Theme.textSecondary)
-            }
-            .padding(.horizontal, Spacing.xxl)
-
-            Spacer()
-        }
-        .padding(.horizontal, Spacing.xl)
-    }
-
-    // MARK: - Page 4: Keyboard
-
-    private var keyboardPage: some View {
-        VStack(spacing: Spacing.xxl) {
-            Spacer()
-
-            Image(systemName: "keyboard")
-                .font(.system(size: Theme.iconSizeMedium))
-                .foregroundStyle(Theme.gold)
-
-            VStack(spacing: Spacing.md) {
-                Text("Keyboard Extension")
-                    .font(Typography.headline)
-
-                Text("Generate passwords anywhere with the KeySmith keyboard.")
-                    .font(.subheadline)
-                    .foregroundStyle(Theme.textSecondary)
-                    .multilineTextAlignment(.center)
-            }
-
-            VStack(spacing: Spacing.lg) {
-                Button {
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url)
-                    }
-                } label: {
-                    Label("Open Settings", systemImage: "gear")
-                        .font(.headline)
-                }
-                .buttonStyle(.brandSecondary)
-
-                Button {
-                    finishOnboarding()
-                } label: {
-                    Text("Continue to App")
-                        .font(.headline)
-                }
-                .buttonStyle(.brandPrimary)
-            }
-            .padding(.horizontal, Spacing.xxl)
-
-            Spacer()
-        }
-        .padding(.horizontal, Spacing.xl)
-    }
-
-    // MARK: - Adaptive Gradient
 
     // MARK: - PIN Actions
 

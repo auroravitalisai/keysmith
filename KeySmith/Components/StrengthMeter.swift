@@ -46,7 +46,7 @@ struct StrengthMeter: View {
         switch strength {
         case 0..<0.3: return Theme.danger
         case 0.3..<0.6: return Theme.warning
-        case 0.6..<0.8: return .yellow
+        case 0.6..<0.8: return Theme.accent
         default: return Theme.success
         }
     }
