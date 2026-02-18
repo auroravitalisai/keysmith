@@ -19,6 +19,7 @@ struct SettingsView: View {
         }
         .scrollContentBackground(.hidden)
         .adaptiveGradientBackground()
+        .adaptiveToolbarStyle()
         .navigationTitle("Settings")
         .sheet(isPresented: $showSetupGuide) {
             SetupGuideView()

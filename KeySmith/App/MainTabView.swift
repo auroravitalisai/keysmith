@@ -24,6 +24,7 @@ struct MainTabView: View {
                 }
             }
         }
+        .adaptiveTabBarStyle()
         .onAppear {
             store.loadEntries()
         }

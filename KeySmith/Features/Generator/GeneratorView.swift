@@ -45,6 +45,7 @@ struct GeneratorView: View {
             .padding()
         }
         .adaptiveGradientBackground()
+        .adaptiveToolbarStyle()
         .navigationTitle("Generator")
         .onAppear { generateNewPassword() }
         .sheet(isPresented: $showSaveSheet) {
