@@ -62,6 +62,46 @@ enum Theme {
     static let iconSizeSmall: CGFloat = 48
 }
 
+// MARK: - Adaptive Toolbar Style
+
+struct AdaptiveToolbarStyle: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        if colorScheme == .dark {
+            content
+                .toolbarBackground(Theme.navyDark, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+        } else {
+            content
+        }
+    }
+}
+
+struct AdaptiveTabBarStyle: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        if colorScheme == .dark {
+            content
+                .toolbarBackground(Theme.navyDark, for: .tabBar)
+                .toolbarBackground(.visible, for: .tabBar)
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func adaptiveToolbarStyle() -> some View {
+        modifier(AdaptiveToolbarStyle())
+    }
+
+    func adaptiveTabBarStyle() -> some View {
+        modifier(AdaptiveTabBarStyle())
+    }
+}
+
 // MARK: - Adaptive Gradient Modifier
 
 struct AdaptiveGradientBackground: ViewModifier {
