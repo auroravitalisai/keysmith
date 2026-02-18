@@ -39,6 +39,14 @@
 		CFE2E0272B269582E91D50CC /* BiometricService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A561CC13322B40107D752 /* BiometricService.swift */; };
 		E5E53621BA433BA5DC63BC4D /* EditEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABC41EE10CD19EEC5EEABAC /* EditEntryView.swift */; };
 		EF622CCFE3DB293FDCB491B5 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130940D975009939CE4F0016 /* AppState.swift */; };
+		252493250327291234318333 /* OnboardingBiometricPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381720979872130009461099 /* OnboardingBiometricPage.swift */; };
+		316803287968055867646177 /* VaultEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040644520018827322486783 /* VaultEntryRow.swift */; };
+		328316631001549105733104 /* OnboardingWelcomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032534941213533314387134 /* OnboardingWelcomePage.swift */; };
+		553203450825545145575440 /* ChangePINView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371463035794409291929410 /* ChangePINView.swift */; };
+		626205088740891116621247 /* SavePasswordSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929705424410198422874432 /* SavePasswordSheet.swift */; };
+		753940744921124353441871 /* OnboardingKeyboardPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032835304456119913488852 /* OnboardingKeyboardPage.swift */; };
+		854081432438039210146010 /* PasswordOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455348432520942476305439 /* PasswordOptionsView.swift */; };
+		951173652902737350341314 /* StrengthPresetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404354810032034233606552 /* StrengthPresetsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +117,14 @@
 		E3DE257E58D91E50267FE290 /* PasswordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStore.swift; sourceTree = "<group>"; };
 		F22D336B91DC484CFF13DB62 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
 		F6B9A7F7073258831114F97A /* GeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorView.swift; sourceTree = "<group>"; };
+		032534941213533314387134 /* OnboardingWelcomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWelcomePage.swift; sourceTree = "<group>"; };
+		032835304456119913488852 /* OnboardingKeyboardPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingKeyboardPage.swift; sourceTree = "<group>"; };
+		040644520018827322486783 /* VaultEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultEntryRow.swift; sourceTree = "<group>"; };
+		371463035794409291929410 /* ChangePINView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePINView.swift; sourceTree = "<group>"; };
+		381720979872130009461099 /* OnboardingBiometricPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBiometricPage.swift; sourceTree = "<group>"; };
+		404354810032034233606552 /* StrengthPresetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrengthPresetsView.swift; sourceTree = "<group>"; };
+		455348432520942476305439 /* PasswordOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordOptionsView.swift; sourceTree = "<group>"; };
+		929705424410198422874432 /* SavePasswordSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePasswordSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -235,6 +251,7 @@
 		DC52F0511B3A649CBAE36584 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				371463035794409291929410 /* ChangePINView.swift */,
 				7B86348D48866410683DA601 /* SettingsView.swift */,
 				52465B222247BC8B770DA436 /* SetupGuideView.swift */,
 			);
@@ -267,9 +284,16 @@
 			isa = PBXGroup;
 			children = (
 				B33AA74F1D45C42B0DA06FA1 /* GlassCard.swift */,
+				381720979872130009461099 /* OnboardingBiometricPage.swift */,
+				032835304456119913488852 /* OnboardingKeyboardPage.swift */,
+				032534941213533314387134 /* OnboardingWelcomePage.swift */,
 				51B7986957B3852EB45D5A87 /* PasswordDisplay.swift */,
+				455348432520942476305439 /* PasswordOptionsView.swift */,
 				4712F7C56900CDFA5B478273 /* PINInputView.swift */,
+				929705424410198422874432 /* SavePasswordSheet.swift */,
 				C19F6910D3A2F76807F35F08 /* StrengthMeter.swift */,
+				404354810032034233606552 /* StrengthPresetsView.swift */,
+				040644520018827322486783 /* VaultEntryRow.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -404,6 +428,7 @@
 				EF622CCFE3DB293FDCB491B5 /* AppState.swift in Sources */,
 				CFE2E0272B269582E91D50CC /* BiometricService.swift in Sources */,
 				30C27CA77C0FD6020480CA3B /* BrandButtonStyles.swift in Sources */,
+				553203450825545145575440 /* ChangePINView.swift in Sources */,
 				E5E53621BA433BA5DC63BC4D /* EditEntryView.swift in Sources */,
 				5424B025E2D9D04FADCF8081 /* GeneratorView.swift in Sources */,
 				B1C9C57D4B30BE6C4E3A1D0B /* GlassCard.swift in Sources */,
@@ -412,18 +437,25 @@
 				76B347D2CDD52F25B4FC0A2A /* KeychainManager.swift in Sources */,
 				C74C27450C190622AE0B4575 /* LockScreenView.swift in Sources */,
 				58D3F34EA0018C81BD0AA9E3 /* MainTabView.swift in Sources */,
+				252493250327291234318333 /* OnboardingBiometricPage.swift in Sources */,
+				753940744921124353441871 /* OnboardingKeyboardPage.swift in Sources */,
+				328316631001549105733104 /* OnboardingWelcomePage.swift in Sources */,
 				B4160D45306245263B33ADE3 /* OnboardingView.swift in Sources */,
 				5AD80797E93B8E8EB3500C51 /* PINInputView.swift in Sources */,
 				0BE2973C12648E5B32818751 /* PasswordDisplay.swift in Sources */,
+				854081432438039210146010 /* PasswordOptionsView.swift in Sources */,
 				024F2DCF2B1D40E16B5630A6 /* PasswordEntry.swift in Sources */,
 				2DBC05BC2C69506D2722C585 /* PasswordGenerator.swift in Sources */,
 				93CF62548EC7DBFD8C9AC4D8 /* PasswordStore.swift in Sources */,
+				626205088740891116621247 /* SavePasswordSheet.swift in Sources */,
 				15FEFE42D2BFC5C0958E5607 /* SettingsView.swift in Sources */,
 				A5D28353D9413DFBC47EC9CB /* SetupGuideView.swift in Sources */,
 				35769398B5D8A5180F7362B1 /* Spacing.swift in Sources */,
 				8BD7B2444229DFEBFDFBC209 /* StrengthMeter.swift in Sources */,
+				951173652902737350341314 /* StrengthPresetsView.swift in Sources */,
 				CB7758818D2E18D330FE8C7F /* Theme.swift in Sources */,
 				A5F4E449AF63017A865AB1DE /* Typography.swift in Sources */,
+				316803287968055867646177 /* VaultEntryRow.swift in Sources */,
 				191A2ECEC96C45D08576F0D1 /* VaultView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
