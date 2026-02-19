@@ -12,10 +12,6 @@ struct GlassCard<Content: View>: View {
     var body: some View {
         content
             .padding(Spacing.lg)
-            .background {
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(.regularMaterial)
-            }
             .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 }

@@ -18,6 +18,7 @@ struct SettingsView: View {
             aboutSection
         }
         .scrollContentBackground(.hidden)
+        .glassEffect(.regular)
         .adaptiveGradientBackground()
         .adaptiveToolbarStyle()
         .navigationTitle("Settings")
@@ -143,7 +144,7 @@ struct SettingsView: View {
 
     private var aboutSection: some View {
         Section("About") {
-            LabeledContent("Version", value: "2.0.0")
+            LabeledContent("Version", value: "1.0.0")
             LabeledContent("Build", value: "1")
             LabeledContent("Developer", value: "Aurora Vitalis")
 
