@@ -62,6 +62,18 @@ enum Theme {
     static let iconSizeSmall: CGFloat = 48
 }
 
+// MARK: - Adaptive Root Background
+
+/// Fills the entire window (including safe areas) with the appropriate color
+struct AdaptiveRootBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        (colorScheme == .dark ? Theme.navyDark : Color(.systemBackground))
+            .ignoresSafeArea()
+    }
+}
+
 // MARK: - Adaptive Toolbar Style
 
 struct AdaptiveToolbarStyle: ViewModifier {

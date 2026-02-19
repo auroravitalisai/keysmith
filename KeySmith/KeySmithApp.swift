@@ -14,15 +14,55 @@ struct KeySmithApp: App {
         }
     }
 
+    init() {
+        configureUIKitAppearance()
+    }
+
+    /// Set UIKit appearance proxies — navy for dark mode, defaults for light
+    private static func configureUIKitAppearance() {
+        let navyUI = UIColor(Theme.navyDark)
+
+        // Use a dynamic UIColor that adapts to trait changes
+        let adaptiveBg = UIColor { traits in
+            traits.userInterfaceStyle == .dark ? navyUI : .systemBackground
+        }
+
+        // Tab bar
+        let tabAppearance = UITabBarAppearance()
+        tabAppearance.configureWithOpaqueBackground()
+        tabAppearance.backgroundColor = adaptiveBg
+        UITabBar.appearance().standardAppearance = tabAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabAppearance
+
+        // Navigation bar
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.configureWithOpaqueBackground()
+        navAppearance.backgroundColor = adaptiveBg
+        navAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        navAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().standardAppearance = navAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
+        UINavigationBar.appearance().compactAppearance = navAppearance
+    }
+
+    private func configureUIKitAppearance() {
+        Self.configureUIKitAppearance()
+    }
+
     var body: some Scene {
         WindowGroup {
-            Group {
-                if !appState.hasCompletedOnboarding {
-                    OnboardingView()
-                } else if appState.isLocked {
-                    LockScreenView()
-                } else {
-                    MainTabView()
+            ZStack {
+                // Root background — fills entire window including safe areas
+                AdaptiveRootBackground()
+
+                Group {
+                    if !appState.hasCompletedOnboarding {
+                        OnboardingView()
+                    } else if appState.isLocked {
+                        LockScreenView()
+                    } else {
+                        MainTabView()
+                    }
                 }
             }
             .tint(Theme.gold)

@@ -3,6 +3,7 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var store = PasswordStore()
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         TabView(selection: $appState.selectedTab) {
@@ -24,7 +25,8 @@ struct MainTabView: View {
                 }
             }
         }
-        .adaptiveTabBarStyle()
+        .toolbarBackgroundVisibility(.visible, for: .tabBar)
+        .toolbarBackground(colorScheme == .dark ? Theme.navyDark : Color(.systemBackground), for: .tabBar)
         .onAppear {
             store.loadEntries()
         }

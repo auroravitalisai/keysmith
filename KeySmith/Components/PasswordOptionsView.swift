@@ -58,7 +58,7 @@ struct PasswordOptionsView: View {
                 toggleRow("#$%", "Symbols", $includeSymbols)
             }
             .padding(Spacing.xs)
-            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
     }
 

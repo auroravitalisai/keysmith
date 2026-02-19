@@ -34,7 +34,7 @@ struct StrengthPresetsView: View {
                         .buttonStyle(.glass)
                         .glassEffect(
                             selectedStrength == strength
-                                ? .regular.tint(Theme.accent).interactive()
+                                ? .regular.tint(Theme.gold).interactive()
                                 : .regular.interactive()
                         )
                         .accessibilityLabel("\(strength.rawValue) preset: \(strength.description)")

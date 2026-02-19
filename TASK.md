@@ -1,69 +1,107 @@
-# KeySmith UI Cleanup Task
+# TASK: Fix Black vs Navy Background Clash
 
-## 1. Fix Button Size Inconsistency in GeneratorView
+## The Problem
+In dark mode, the system chrome (navigation bar, tab bar, status bar area, List/Form backgrounds) renders as pure black (#000000), while our content uses a dark navy gradient (#121845 → #233064). This creates a jarring, ugly seam between the two. It looks like two different apps stitched together.
 
-In `KeySmith/Features/Generator/GeneratorView.swift`, the `actionButtons` section:
+## The Fix
 
-- **Generate button** uses `.background(.ultraThinMaterial, in: Capsule())` — this is NOT glass style, it's a raw material
-- **Copy button** uses `.background(Theme.accent, in: Capsule())` — solid color
+### 1. Navigation Bar — Navy Background
+In `MainTabView.swift` or `KeySmithApp.swift`, configure the UINavigationBarAppearance to use our navy color in dark mode:
 
-Both should use consistent styling. Fix:
-- Make Generate and Copy buttons the same height/width by ensuring both use `.frame(maxWidth: .infinity)` AND `.frame(height: 50)` explicitly
-- Replace `.ultraThinMaterial` on Generate with `.buttonStyle(.glass)` and remove the manual background/frame/capsule — let glass handle it
-- For Copy button, keep the solid gold background since it's the primary CTA, but ensure same height
-- "Save to Vault" is fine with `.buttonStyle(.glass)`
+```swift
+// In init() or .onAppear of MainTabView or KeySmithApp
+let navAppearance = UINavigationBarAppearance()
+navAppearance.configureWithOpaqueBackground()
+navAppearance.backgroundColor = UIColor(Theme.navyDark)
+navAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+navAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+UINavigationBar.appearance().standardAppearance = navAppearance
+UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
+UINavigationBar.appearance().compactAppearance = navAppearance
+```
 
-## 2. Component Extraction (150-line rule)
+BUT — this should ONLY apply in dark mode. In light mode, use default system appearance. Check `@Environment(\.colorScheme)` or use the `appearanceMode` AppStorage.
 
-Extract views to keep each file under ~150 lines:
+**Better approach**: Create a ViewModifier that conditionally applies toolbar background:
+```swift
+.toolbarBackground(Theme.navyDark, for: .navigationBar)
+.toolbarBackground(.visible, for: .navigationBar)
+```
 
-### GeneratorView.swift (340 lines → split)
-- Extract `PasswordDisplay` section + `StrengthMeter` → already separate? Check.
-- Extract `strengthPresets` → `StrengthPresetsView.swift` in `KeySmith/Components/`
-- Extract `lengthControl` + `characterOptions` → `PasswordOptionsView.swift` in `KeySmith/Components/`
-- Extract `SavePasswordSheet` → `KeySmith/Components/SavePasswordSheet.swift` (it's already a separate struct, just move the file)
-- Keep GeneratorView.swift with just body + action methods
+Apply this in each NavigationStack content view (GeneratorView, VaultView, SettingsView) conditionally for dark mode only.
 
-### OnboardingView.swift (329 lines → split)
-- Extract each onboarding page into its own view in `KeySmith/Components/`
-- Keep OnboardingView as the coordinator
+### 2. Tab Bar — Navy Background  
+Similarly for the tab bar:
+```swift
+.toolbarBackground(Theme.navyDark, for: .tabBar)
+.toolbarBackground(.visible, for: .tabBar)
+```
 
-### SettingsView.swift (309 lines → split)  
-- Extract `ChangePINView` → `KeySmith/Features/Settings/ChangePINView.swift` (separate file)
-- Each section can stay as computed properties since they're small individually
+Apply on the TabView in MainTabView.swift, conditionally for dark mode.
 
-### VaultView.swift (223 lines) — borderline, extract if easy
-- Extract `entryRow` → `VaultEntryRow.swift` in `KeySmith/Components/`
+### 3. List/Form Backgrounds
+VaultView and SettingsView use List/Form. These have their own background. We already have `.scrollContentBackground(.hidden)` and `.adaptiveGradientBackground()` — verify these are working. The List rows themselves might still show black backgrounds. If so, add:
+```swift
+.listRowBackground(Color.clear)
+```
+to list rows, or use:
+```swift
+.listStyle(.plain)
+```
 
-### EditEntryView.swift (228 lines) — borderline, leave for now
+### 4. Vault Empty State
+The empty state in VaultView shows a navy card floating on black. Remove the card container — just show the content directly on the gradient background. The empty state VStack should NOT have any separate background/card — it inherits from `.adaptiveGradientBackground()`.
 
-## 3. Color/Style Consistency Check
+### 5. Light Mode
+In light mode, everything should use system defaults with our light gradient. Don't apply navy toolbar backgrounds in light mode. The `.adaptiveGradientBackground()` modifier already handles the light/dark switch — toolbar backgrounds should follow the same pattern.
 
-- NO hardcoded colors (hex values, Color.blue, etc.) in view files — use Theme tokens
-- NO `.buttonStyle(.glass)` on brand screens (onboarding, lock screen) — use `.brandPINKey` or brand button styles
-- `.buttonStyle(.glass)` is FINE on adaptive screens (Generator, Vault, Settings)
-- All backgrounds use either `.adaptiveGradientBackground()` (adaptive screens) or `Theme.darkGradient` (brand screens)
-- Verify `.scrollContentBackground(.hidden)` is on any Form/List that uses `.adaptiveGradientBackground()`
+### Implementation Strategy
 
-## 4. Build Verification
+Create a new ViewModifier in `KeySmith/Design/Theme.swift`:
 
-After all changes, verify:
+```swift
+struct AdaptiveToolbarStyle: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+    
+    func body(content: Content) -> some View {
+        if colorScheme == .dark {
+            content
+                .toolbarBackground(Theme.navyDark, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func adaptiveToolbarStyle() -> some View {
+        modifier(AdaptiveToolbarStyle())
+    }
+}
+```
+
+Apply `.adaptiveToolbarStyle()` to GeneratorView, VaultView, SettingsView.
+
+For the tab bar, apply in MainTabView:
+```swift
+TabView { ... }
+    .toolbarBackground(colorScheme == .dark ? Theme.navyDark : .automatic, for: .tabBar)
+    .toolbarBackground(.visible, for: .tabBar)
+```
+
+### Build & Verify
 ```bash
-cd /Users/narissara/Developer/KeySmith
 xcodebuild -project KeySmith.xcodeproj -scheme KeySmith -destination 'id=C340D143-E59C-404F-A469-25CE3C53D54D' build 2>&1 | tail -5
 ```
 
-Must build clean with no errors.
-
-## 5. Commit
-
+### Commit
 ```bash
-git add -A && git commit -m "Component extraction + button consistency fix"
+git add -A && git commit -m "Fix black vs navy background clash — unified dark mode appearance"
 ```
 
 ## Rules
-- Use Theme/Spacing/Typography tokens ONLY — no magic numbers
-- No hardcoded colors in view files
-- Every view file under 150 lines (target, not hard limit for borderline cases)
-- Swift 6.0, iOS 26, strict concurrency
-- Don't break existing functionality
+- Theme tokens only — no hardcoded colors
+- Don't break light mode
+- Don't touch onboarding or lock screen (they use Theme.darkGradient always)
+- Test that it builds clean
