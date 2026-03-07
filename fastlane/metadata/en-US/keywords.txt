@@ -1,0 +1,1 @@
+password manager,vault,keychain,secure,passwords,generator,autofill,biometric,privacy,offline

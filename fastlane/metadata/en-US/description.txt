@@ -1,0 +1,22 @@
+KeySmith is a privacy-first password manager that keeps everything on your device. No accounts, no cloud sync, no tracking — just secure, offline password storage protected by your Keychain.
+
+FEATURES
+• Generate strong passwords with customizable length, symbols, and character options
+• Passphrase generator with configurable word count and separators
+• Strength meter with real-time entropy calculation
+• Secure vault with categories and favorites
+• PIN + biometric authentication (Face ID / Touch ID)
+• Clipboard auto-clear after 30 seconds
+• Custom keyboard extension for quick password access
+• Beautiful Liquid Glass design
+• Fully offline — zero network connections
+• No ads, no telemetry, no data collection
+
+SECURITY
+• Passwords stored in iOS Keychain with hardware-level encryption
+• PIN protected with PBKDF2 (600,000 iterations)
+• Brute-force lockout with persistent attempt tracking
+• Complete Data Protection enabled
+• AutoFill Credential Provider support
+
+KeySmith is designed for people who believe their passwords should never leave their device. Simple, secure, private.

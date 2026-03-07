@@ -1,0 +1,57 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build KeySmith"
+  lane :build do
+    build_app(
+      scheme: "KeySmith",
+      project: "KeySmith.xcodeproj",
+      clean: true,
+      export_method: "app-store",
+      output_directory: "./build",
+      output_name: "KeySmith.ipa"
+    )
+  end
+
+  desc "Upload to TestFlight"
+  lane :beta do
+    build
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Upload to App Store"
+  lane :release do
+    build
+    upload_to_app_store(
+      force: true,
+      skip_screenshots: true,
+      skip_metadata: false,
+      submit_for_review: false
+    )
+  end
+
+  desc "Upload metadata only (no build)"
+  lane :metadata do
+    upload_to_app_store(
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true
+    )
+  end
+
+  desc "Download existing metadata"
+  lane :download_metadata do
+    download_metadata
+  end
+
+  desc "Take screenshots"
+  lane :screenshots do
+    capture_screenshots(
+      scheme: "KeySmith",
+      project: "KeySmith.xcodeproj",
+      output_directory: "./fastlane/screenshots"
+    )
+  end
+end
