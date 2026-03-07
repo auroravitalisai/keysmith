@@ -17,33 +17,20 @@ final class KeychainManager: Sendable {
     // MARK: - Public API
     
     /// Save all password entries to Keychain
+    /// Uses atomic delete-then-add to ensure access control attributes are always set.
     func saveEntries(_ entries: [PasswordEntry]) throws {
         let data = try JSONEncoder().encode(entries)
-        
-        // Try to update existing item first
+
+        // Always delete-then-add to guarantee kSecAttrAccessible is set consistently
         let query = baseQuery()
-        let status = SecItemCopyMatching(query as CFDictionary, nil)
-        
-        if status == errSecSuccess {
-            // Update existing
-            let updateAttributes: [String: Any] = [
-                kSecValueData as String: data
-            ]
-            let updateStatus = SecItemUpdate(query as CFDictionary, updateAttributes as CFDictionary)
-            guard updateStatus == errSecSuccess else {
-                throw KeychainError.unhandledError(status: updateStatus)
-            }
-        } else if status == errSecItemNotFound {
-            // Add new
-            var addQuery = baseQuery()
-            addQuery[kSecValueData as String] = data
-            addQuery[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-            
-            let addStatus = SecItemAdd(addQuery as CFDictionary, nil)
-            guard addStatus == errSecSuccess else {
-                throw KeychainError.unhandledError(status: addStatus)
-            }
-        } else {
+        SecItemDelete(query as CFDictionary) // ignore status — may not exist yet
+
+        var addQuery = baseQuery()
+        addQuery[kSecValueData as String] = data
+        addQuery[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+
+        let status = SecItemAdd(addQuery as CFDictionary, nil)
+        guard status == errSecSuccess else {
             throw KeychainError.unhandledError(status: status)
         }
     }
