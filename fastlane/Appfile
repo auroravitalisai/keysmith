@@ -2,3 +2,8 @@ app_identifier("com.auroravitalis.keysmith")
 apple_id("narissarahoing@icloud.com")
 team_id("V3VUMY2C3U")
 itc_team_id("126498665")
+
+# App Store Connect API Key (passwordless auth)
+ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"] = "B2667W99UH"
+ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"] = "f03256e6-0974-4428-862b-030087ce41b3"
+ENV["APP_STORE_CONNECT_API_KEY_KEY_FILEPATH"] = File.join(Dir.pwd, "fastlane", "keys", "AuthKey_B2667W99UH.p8")
