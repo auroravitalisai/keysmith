@@ -47,7 +47,7 @@ struct GeneratorView: View {
         .adaptiveGradientBackground()
         .adaptiveToolbarStyle()
         .navigationTitle("Generator")
-        .onAppear { generateNewPassword() }
+        .onAppear { if generatedPassword.isEmpty { generateNewPassword() } }
         .sheet(isPresented: $showSaveSheet) {
             SavePasswordSheet(password: generatedPassword, store: store)
         }
