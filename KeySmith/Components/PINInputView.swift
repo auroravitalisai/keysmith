@@ -11,87 +11,20 @@ struct PINInputView: View {
 
     var body: some View {
         VStack(spacing: Spacing.xxl) {
-            pinDots
-            numberPad
-        }
-    }
+            PINDotsView(count: pin.count, maxDigits: maxDigits)
+                .modifier(ShakeEffect(shakes: shakeCount))
+                .accessibilityLabel("PIN entry, \(pin.count) of \(maxDigits) digits entered")
 
-    // MARK: - PIN Dots
-
-    private var pinDots: some View {
-        HStack(spacing: Spacing.lg) {
-            ForEach(0..<maxDigits, id: \.self) { index in
-                if index < pin.count {
-                    Circle()
-                        .fill(Theme.gold)
-                        .frame(width: 16, height: 16)
-                        .scaleEffect(1.1)
-                        .animation(.spring(duration: 0.2), value: pin.count)
-                } else {
-                    Circle()
-                        .stroke(Color.white.opacity(0.8), lineWidth: 2.5)
-                        .frame(width: 16, height: 16)
-                        .animation(.spring(duration: 0.2), value: pin.count)
-                }
-            }
-        }
-        .modifier(ShakeEffect(shakes: shakeCount))
-        .accessibilityLabel("PIN entry, \(pin.count) of \(maxDigits) digits entered")
-    }
-
-    // MARK: - Number Pad
-
-    private var numberPad: some View {
-        VStack(spacing: Spacing.md) {
-            ForEach(numberRows, id: \.self) { row in
-                HStack(spacing: Spacing.md) {
-                    ForEach(row, id: \.self) { key in
-                        numberKey(key)
-                    }
-                }
-            }
-        }
-        .padding(.horizontal, Spacing.xxl)
-    }
-
-    private var numberRows: [[String]] {
-        [
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-            ["7", "8", "9"],
-            ["", "0", "delete"],
-        ]
-    }
-
-    @ViewBuilder
-    private func numberKey(_ key: String) -> some View {
-        if key.isEmpty {
-            Color.clear
-                .frame(width: 72, height: 72)
-        } else if key == "delete" {
-            Button {
-                guard !pin.isEmpty else { return }
-                pin.removeLast()
-                HapticService.light()
-            } label: {
-                Image(systemName: "delete.left")
-                    .font(.title2)
-                    .frame(width: 72, height: 72)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
-            .accessibilityLabel("Delete")
-        } else {
-            Button {
-                appendDigit(key)
-            } label: {
-                Text(key)
-                    .font(.title2.bold())
-                    .frame(width: 72, height: 72)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
-            .accessibilityLabel(key)
+            PINPadView(
+                onDigit: { appendDigit($0) },
+                onDelete: {
+                    guard !pin.isEmpty else { return }
+                    pin.removeLast()
+                    HapticService.light()
+                },
+                keySize: 72
+            )
+            .padding(.horizontal, Spacing.xxl)
         }
     }
 

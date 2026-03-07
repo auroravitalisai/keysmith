@@ -51,88 +51,27 @@ struct LockScreenView: View {
     // MARK: - PIN Dots
 
     private var pinDots: some View {
-        HStack(spacing: Spacing.lg) {
-            ForEach(0..<6, id: \.self) { index in
-                if index < enteredPIN.count {
-                    Circle()
-                        .fill(Theme.gold)
-                        .frame(width: 16, height: 16)
-                        .scaleEffect(1.1)
-                        .animation(.spring(duration: 0.2), value: enteredPIN.count)
-                } else {
-                    Circle()
-                        .stroke(Color.white.opacity(0.8), lineWidth: 2.5)
-                        .frame(width: 16, height: 16)
-                        .animation(.spring(duration: 0.2), value: enteredPIN.count)
-                }
-            }
-        }
-        .modifier(ShakeEffect(shakes: isWrong ? 3 : 0))
-        .animation(.spring(duration: 0.4), value: isWrong)
+        PINDotsView(count: enteredPIN.count, maxDigits: 6)
+            .modifier(ShakeEffect(shakes: isWrong ? 3 : 0))
+            .animation(.spring(duration: 0.4), value: isWrong)
     }
 
     // MARK: - PIN Pad
 
     private var pinPad: some View {
-        VStack(spacing: Spacing.md) {
-            ForEach(numberRows, id: \.self) { row in
-                HStack(spacing: Spacing.md) {
-                    ForEach(row, id: \.self) { key in
-                        pinKey(key)
-                    }
-                }
-            }
-        }
-        .transition(.move(edge: .bottom).combined(with: .opacity))
-    }
-
-    private var numberRows: [[String]] {
-        [
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-            ["7", "8", "9"],
-            ["biometric", "0", "delete"],
-        ]
-    }
-
-    @ViewBuilder
-    private func pinKey(_ key: String) -> some View {
-        if key == "biometric" {
-            if appState.biometricEnabled {
-                Button { attemptBiometric() } label: {
-                    Image(systemName: appState.biometricService.biometricIcon)
-                        .font(.title2)
-                        .frame(width: 76, height: 76)
-                }
-                .buttonStyle(.brandPINKey)
-                .buttonBorderShape(.circle)
-                .accessibilityLabel(appState.biometricService.biometricName)
-            } else {
-                Color.clear.frame(width: 76, height: 76)
-            }
-        } else if key == "delete" {
-            Button {
+        PINPadView(
+            onDigit: { appendDigit($0) },
+            onDelete: {
                 guard !enteredPIN.isEmpty else { return }
                 enteredPIN.removeLast()
                 HapticService.light()
-            } label: {
-                Image(systemName: "delete.left")
-                    .font(.title2)
-                    .frame(width: 76, height: 76)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
-            .accessibilityLabel("Delete")
-        } else {
-            Button { appendDigit(key) } label: {
-                Text(key)
-                    .font(.title2.bold())
-                    .frame(width: 76, height: 76)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
-            .accessibilityLabel(key)
-        }
+            },
+            keySize: 76,
+            extraLeadingKey: appState.biometricEnabled
+                ? .biometric(icon: appState.biometricService.biometricIcon, action: attemptBiometric)
+                : .empty
+        )
+        .transition(.move(edge: .bottom).combined(with: .opacity))
     }
 
     // MARK: - Biometric
