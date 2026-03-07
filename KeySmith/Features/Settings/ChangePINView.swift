@@ -26,17 +26,19 @@ struct ChangePINView: View {
                         .foregroundStyle(Theme.danger)
                 }
 
-                pinDotsFor(currentInput)
+                PINDotsView(
+                    count: currentInput.count,
+                    maxDigits: 6,
+                    activeColor: Theme.accent,
+                    inactiveStyle: .filled(Theme.dotInactive)
+                )
 
-                VStack(spacing: Spacing.md) {
-                    ForEach(numberRows, id: \.self) { row in
-                        HStack(spacing: Spacing.md) {
-                            ForEach(row, id: \.self) { key in
-                                changePINKey(key)
-                            }
-                        }
-                    }
-                }
+                PINPadView(
+                    onDigit: { appendDigit($0) },
+                    onDelete: { deleteDigit() },
+                    keySize: 64,
+                    keyFont: .title3.bold()
+                )
 
                 Spacer()
             }
@@ -65,39 +67,6 @@ struct ChangePINView: View {
         case .current: return currentPIN
         case .newPIN: return newPIN
         case .confirm: return confirmPIN
-        }
-    }
-
-    private var numberRows: [[String]] {
-        [["1","2","3"],["4","5","6"],["7","8","9"],["","0","delete"]]
-    }
-
-    private func pinDotsFor(_ input: String) -> some View {
-        HStack(spacing: Spacing.lg) {
-            ForEach(0..<6, id: \.self) { index in
-                Circle()
-                    .fill(index < input.count ? Theme.accent : Theme.dotInactive)
-                    .frame(width: 14, height: 14)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func changePINKey(_ key: String) -> some View {
-        if key.isEmpty {
-            Color.clear.frame(width: 64, height: 64)
-        } else if key == "delete" {
-            Button { deleteDigit() } label: {
-                Image(systemName: "delete.left").font(.title3).frame(width: 64, height: 64)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
-        } else {
-            Button { appendDigit(key) } label: {
-                Text(key).font(.title3.bold()).frame(width: 64, height: 64)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
         }
     }
 

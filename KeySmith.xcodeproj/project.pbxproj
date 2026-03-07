@@ -24,6 +24,8 @@
 		54DC24D6A41E764C9ACBC829 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 96CF84A8BC730E84E599F5FD /* AppIcon.icon */; };
 		58D3F34EA0018C81BD0AA9E3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ACEBE3C7BE061CE833C610 /* MainTabView.swift */; };
 		5AD80797E93B8E8EB3500C51 /* PINInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712F7C56900CDFA5B478273 /* PINInputView.swift */; };
+		AA1B2C3D4E5F60718293A4B5 /* PINDotsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C3D4E5F60718293A4B5C6 /* PINDotsView.swift */; };
+		CC3D4E5F60718293A4B5C6D7 /* PINPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4E5F60718293A4B5C6D7E8 /* PINPadView.swift */; };
 		61CB1FDB9CF9B349B753818D /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22D336B91DC484CFF13DB62 /* HapticService.swift */; };
 		66C5DDA8E5F4991A40FE2395 /* KeySmithApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639182FBDCAE9AD8687D63BB /* KeySmithApp.swift */; };
 		6D3A60A851BED7BA5CF86EC7 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6EA4F8209D36967AF15B9 /* KeyboardViewController.swift */; };
@@ -93,6 +95,8 @@
 		193A561CC13322B40107D752 /* BiometricService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricService.swift; sourceTree = "<group>"; };
 		27EE2A34A67D2FFB4A7632B9 /* OnboardingBiometricPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBiometricPage.swift; sourceTree = "<group>"; };
 		4712F7C56900CDFA5B478273 /* PINInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PINInputView.swift; sourceTree = "<group>"; };
+		BB2C3D4E5F60718293A4B5C6 /* PINDotsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PINDotsView.swift; sourceTree = "<group>"; };
+		DD4E5F60718293A4B5C6D7E8 /* PINPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PINPadView.swift; sourceTree = "<group>"; };
 		51B7986957B3852EB45D5A87 /* PasswordDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordDisplay.swift; sourceTree = "<group>"; };
 		52465B222247BC8B770DA436 /* SetupGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGuideView.swift; sourceTree = "<group>"; };
 		56CF256023A9AB4B1019ED91 /* AppLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockManager.swift; sourceTree = "<group>"; };
@@ -289,7 +293,9 @@
 				C30A8C8EF63A8BD333D23DB4 /* OnboardingWelcomePage.swift */,
 				51B7986957B3852EB45D5A87 /* PasswordDisplay.swift */,
 				B2FC5C6A3A9A45D73F212EBA /* PasswordOptionsView.swift */,
+				BB2C3D4E5F60718293A4B5C6 /* PINDotsView.swift */,
 				4712F7C56900CDFA5B478273 /* PINInputView.swift */,
+				DD4E5F60718293A4B5C6D7E8 /* PINPadView.swift */,
 				5ADC0C56087BC9F04325E063 /* SavePasswordSheet.swift */,
 				C19F6910D3A2F76807F35F08 /* StrengthMeter.swift */,
 				073E691C8DA74E35FC80B25F /* StrengthPresetsView.swift */,
@@ -441,7 +447,9 @@
 				CFB9C5421296C88C0FE8E8D8 /* OnboardingKeyboardPage.swift in Sources */,
 				B4160D45306245263B33ADE3 /* OnboardingView.swift in Sources */,
 				96B795002FE6683BD828D4D7 /* OnboardingWelcomePage.swift in Sources */,
+				AA1B2C3D4E5F60718293A4B5 /* PINDotsView.swift in Sources */,
 				5AD80797E93B8E8EB3500C51 /* PINInputView.swift in Sources */,
+				CC3D4E5F60718293A4B5C6D7 /* PINPadView.swift in Sources */,
 				0BE2973C12648E5B32818751 /* PasswordDisplay.swift in Sources */,
 				024F2DCF2B1D40E16B5630A6 /* PasswordEntry.swift in Sources */,
 				2DBC05BC2C69506D2722C585 /* PasswordGenerator.swift in Sources */,

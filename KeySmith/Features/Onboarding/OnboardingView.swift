@@ -74,8 +74,18 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
             }
 
-            pinDotsView
-            pinPadView
+            PINDotsView(
+                count: (pinStep == .create ? newPIN : confirmPIN).count,
+                maxDigits: 6
+            )
+
+            PINPadView(
+                onDigit: { appendPINDigit($0) },
+                onDelete: { deletePINDigit() },
+                keySize: 76,
+                keyFont: .title.weight(.regular)
+            )
+            .padding(.horizontal, Spacing.lg)
 
             if pinMismatch {
                 Text("PINs don't match. Try again.")
@@ -86,68 +96,6 @@ struct OnboardingView: View {
             Spacer()
         }
         .padding(.horizontal, Spacing.xl)
-    }
-
-    private var pinDotsView: some View {
-        let currentInput = pinStep == .create ? newPIN : confirmPIN
-
-        return HStack(spacing: Spacing.lg) {
-            ForEach(0..<6, id: \.self) { index in
-                if index < currentInput.count {
-                    Circle()
-                        .fill(Theme.gold)
-                        .frame(width: 16, height: 16)
-                        .scaleEffect(1.1)
-                        .animation(.spring(duration: 0.2), value: currentInput.count)
-                } else {
-                    Circle()
-                        .stroke(Color.white.opacity(0.8), lineWidth: 2.5)
-                        .frame(width: 16, height: 16)
-                        .animation(.spring(duration: 0.2), value: currentInput.count)
-                }
-            }
-        }
-    }
-
-    private var pinPadView: some View {
-        let rows = [["1","2","3"],["4","5","6"],["7","8","9"],["","0","delete"]]
-        return VStack(spacing: Spacing.md) {
-            ForEach(rows, id: \.self) { row in
-                HStack(spacing: Spacing.md) {
-                    ForEach(row, id: \.self) { key in
-                        onboardingKey(key)
-                    }
-                }
-            }
-        }
-        .padding(.horizontal, Spacing.lg)
-    }
-
-    @ViewBuilder
-    private func onboardingKey(_ key: String) -> some View {
-        if key.isEmpty {
-            Color.clear.frame(width: 76, height: 76)
-        } else if key == "delete" {
-            Button {
-                deletePINDigit()
-            } label: {
-                Image(systemName: "delete.left")
-                    .font(.title2)
-                    .frame(width: 76, height: 76)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
-        } else {
-            Button {
-                appendPINDigit(key)
-            } label: {
-                Text(key)
-                    .font(.title.weight(.regular))
-                    .frame(width: 76, height: 76)
-            }
-            .buttonStyle(.brandPINKey)
-            .buttonBorderShape(.circle)
-        }
     }
 
     // MARK: - PIN Actions
