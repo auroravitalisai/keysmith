@@ -1,5 +1,5 @@
 import Foundation
-import CryptoKit
+import CommonCrypto
 import Security
 
 @MainActor
@@ -8,9 +8,36 @@ final class AppLockManager: ObservableObject {
     private let keychainService = "com.auroravitalis.keysmith.pin"
     private let pinHashAccount = "pin-hash"
     private let pinSaltAccount = "pin-salt"
+    private let failedAttemptsAccount = "failed-attempts"
+    private let lockoutEndAccount = "lockout-end"
 
-    @Published private(set) var failedAttempts: Int = 0
-    @Published private(set) var lockoutEndDate: Date?
+    var failedAttempts: Int {
+        get {
+            guard let data = loadKeychainData(account: failedAttemptsAccount) else { return 0 }
+            return (try? JSONDecoder().decode(Int.self, from: data)) ?? 0
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue) {
+                saveKeychainData(data, account: failedAttemptsAccount)
+            }
+            objectWillChange.send()
+        }
+    }
+
+    var lockoutEndDate: Date? {
+        get {
+            guard let data = loadKeychainData(account: lockoutEndAccount) else { return nil }
+            return try? JSONDecoder().decode(Date.self, from: data)
+        }
+        set {
+            if let date = newValue, let data = try? JSONEncoder().encode(date) {
+                saveKeychainData(data, account: lockoutEndAccount)
+            } else {
+                deleteKeychainData(account: lockoutEndAccount)
+            }
+            objectWillChange.send()
+        }
+    }
 
     // MARK: - Public API
 
@@ -72,8 +99,8 @@ final class AppLockManager: ObservableObject {
     func deletePIN() {
         deleteKeychainData(account: pinHashAccount)
         deleteKeychainData(account: pinSaltAccount)
-        failedAttempts = 0
-        lockoutEndDate = nil
+        deleteKeychainData(account: failedAttemptsAccount)
+        deleteKeychainData(account: lockoutEndAccount)
     }
 
     // MARK: - Hashing
@@ -86,10 +113,27 @@ final class AppLockManager: ObservableObject {
 
     private func hashPIN(_ pin: String, salt: Data) -> Data {
         let pinData = Data(pin.utf8)
-        var input = salt
-        input.append(pinData)
-        let digest = SHA256.hash(data: input)
-        return Data(digest)
+        var derivedKey = Data(count: 32)
+
+        derivedKey.withUnsafeMutableBytes { derivedKeyBytes in
+            salt.withUnsafeBytes { saltBytes in
+                pinData.withUnsafeBytes { pinBytes in
+                    CCKeyDerivationPBKDF(
+                        CCPBKDFAlgorithm(kCCPBKDF2),
+                        pinBytes.baseAddress?.assumingMemoryBound(to: Int8.self),
+                        pinData.count,
+                        saltBytes.baseAddress?.assumingMemoryBound(to: UInt8.self),
+                        salt.count,
+                        CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA256),
+                        600_000,
+                        derivedKeyBytes.baseAddress?.assumingMemoryBound(to: UInt8.self),
+                        32
+                    )
+                }
+            }
+        }
+
+        return derivedKey
     }
 
     // MARK: - Lockout
