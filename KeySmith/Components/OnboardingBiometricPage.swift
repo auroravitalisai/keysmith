@@ -32,11 +32,15 @@ struct OnboardingBiometricPage: View {
                         .font(.headline)
                 }
                 .buttonStyle(.brandPrimary)
+                .accessibilityLabel("Enable \(biometricName)")
+                .accessibilityHint("Use \(biometricName) for quick unlock")
 
                 Button("Skip") {
                     onSkip()
                 }
                 .foregroundStyle(Theme.textSecondary)
+                .accessibilityLabel("Skip biometric setup")
+                .accessibilityHint("Continue without enabling \(biometricName)")
             }
             .padding(.horizontal, Spacing.xxl)
 

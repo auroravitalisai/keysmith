@@ -10,7 +10,7 @@ final class KeychainManager: Sendable {
     
     private let service = "com.auroravitalis.keysmith.vault"
     private let account = "password-entries"
-    private let accessGroup: String? = nil
+    private let accessGroup: String? = "group.com.auroravitalis.keysmith"
     
     private init() {}
     

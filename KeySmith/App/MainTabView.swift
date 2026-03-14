@@ -7,15 +7,15 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: $appState.selectedTab) {
-            Tab("Generate", systemImage: "key", value: 0) {
+            Tab("Vault", systemImage: "lock.shield", value: 0) {
                 NavigationStack {
-                    GeneratorView(store: store)
+                    VaultView(store: store)
                 }
             }
 
-            Tab("Vault", systemImage: "lock.shield", value: 1) {
+            Tab("Generate", systemImage: "key", value: 1) {
                 NavigationStack {
-                    VaultView(store: store)
+                    GeneratorView(store: store)
                 }
             }
 

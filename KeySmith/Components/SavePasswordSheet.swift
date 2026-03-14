@@ -16,10 +16,14 @@ struct SavePasswordSheet: View {
             Form {
                 Section("Details") {
                     TextField("Title (e.g. Gmail)", text: $title)
+                        .accessibilityLabel("Title")
+                        .accessibilityHint("Enter a name for this password entry")
                     TextField("Username / Email", text: $username)
+                        .accessibilityLabel("Username or Email")
                     TextField("Website URL", text: $url)
                         .textInputAutocapitalization(.never)
                         .keyboardType(.URL)
+                        .accessibilityLabel("Website URL")
                 }
 
                 Section("Password") {
@@ -34,11 +38,13 @@ struct SavePasswordSheet: View {
                             Label(cat.rawValue, systemImage: cat.icon).tag(cat)
                         }
                     }
+                    .accessibilityLabel("Category")
                 }
 
                 Section("Notes") {
                     TextEditor(text: $notes)
                         .frame(minHeight: 60)
+                        .accessibilityLabel("Notes")
                 }
             }
             .navigationTitle("Save Password")

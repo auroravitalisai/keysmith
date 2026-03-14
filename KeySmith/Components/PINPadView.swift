@@ -59,7 +59,7 @@ struct PINPadView: View {
             }
             .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
-            .accessibilityLabel("Number pad key")
+            .accessibilityLabel("Digit \(key)")
         }
     }
 
@@ -76,6 +76,7 @@ struct PINPadView: View {
             }
             .buttonStyle(.brandPINKey)
             .buttonBorderShape(.circle)
+            .accessibilityLabel("Unlock with biometrics")
         }
     }
 }

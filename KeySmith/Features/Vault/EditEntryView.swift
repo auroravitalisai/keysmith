@@ -21,13 +21,17 @@ struct EditEntryView: View {
             Form {
                 Section("Details") {
                     TextField("Title", text: $title)
+                        .accessibilityLabel("Title")
+                        .accessibilityHint("Enter a name for this password entry")
                     TextField("Username / Email", text: $username)
                         .textInputAutocapitalization(.never)
                         .textContentType(.username)
+                        .accessibilityLabel("Username or Email")
                     TextField("Website URL", text: $url)
                         .textInputAutocapitalization(.never)
                         .keyboardType(.URL)
                         .textContentType(.URL)
+                        .accessibilityLabel("Website URL")
                 }
 
                 Section("Password") {
@@ -48,6 +52,7 @@ struct EditEntryView: View {
                                 .foregroundStyle(.secondary)
                         }
                         .buttonStyle(.plain)
+                        .accessibilityLabel(showPassword ? "Hide password" : "Show password")
                     }
 
                     if !password.isEmpty {
@@ -59,6 +64,8 @@ struct EditEntryView: View {
                     } label: {
                         Label("Generate Password", systemImage: "wand.and.stars")
                     }
+                    .accessibilityLabel("Generate Password")
+                    .accessibilityHint("Open password generator")
                 }
 
                 Section("Category") {
@@ -67,11 +74,13 @@ struct EditEntryView: View {
                             Label(cat.rawValue, systemImage: cat.icon).tag(cat)
                         }
                     }
+                    .accessibilityLabel("Category")
                 }
 
                 Section("Notes") {
                     TextEditor(text: $notes)
                         .frame(minHeight: 80)
+                        .accessibilityLabel("Notes")
                 }
 
                 if isEditing, let entry {

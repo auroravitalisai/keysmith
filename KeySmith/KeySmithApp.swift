@@ -38,8 +38,9 @@ struct KeySmithApp: App {
         let navAppearance = UINavigationBarAppearance()
         navAppearance.configureWithOpaqueBackground()
         navAppearance.backgroundColor = adaptiveBg
-        navAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        let adaptiveText = UIColor { $0.userInterfaceStyle == .dark ? .white : .label }
+        navAppearance.largeTitleTextAttributes = [.foregroundColor: adaptiveText]
+        navAppearance.titleTextAttributes = [.foregroundColor: adaptiveText]
         UINavigationBar.appearance().standardAppearance = navAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
         UINavigationBar.appearance().compactAppearance = navAppearance

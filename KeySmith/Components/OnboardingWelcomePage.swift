@@ -32,6 +32,8 @@ struct OnboardingWelcomePage: View {
             }
             .buttonStyle(.brandPrimary)
             .padding(.horizontal, Spacing.xxl)
+            .accessibilityLabel("Get Started")
+            .accessibilityHint("Begin setting up KeySmith")
 
             Spacer().frame(height: Spacing.xxl)
         }

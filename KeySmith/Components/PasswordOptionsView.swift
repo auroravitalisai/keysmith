@@ -48,17 +48,17 @@ struct PasswordOptionsView: View {
                 .font(.headline)
                 .padding(.leading, Spacing.xs)
 
-            VStack(spacing: 0) {
-                toggleRow("ABC", "Uppercase", $includeUppercase)
-                Divider().padding(.leading, 44)
-                toggleRow("abc", "Lowercase", $includeLowercase)
-                Divider().padding(.leading, 44)
-                toggleRow("123", "Numbers", $includeNumbers)
-                Divider().padding(.leading, 44)
-                toggleRow("#$%", "Symbols", $includeSymbols)
+            GlassCard {
+                VStack(spacing: 0) {
+                    toggleRow("ABC", "Uppercase", $includeUppercase)
+                    Divider().padding(.leading, 44)
+                    toggleRow("abc", "Lowercase", $includeLowercase)
+                    Divider().padding(.leading, 44)
+                    toggleRow("123", "Numbers", $includeNumbers)
+                    Divider().padding(.leading, 44)
+                    toggleRow("#$%", "Symbols", $includeSymbols)
+                }
             }
-            .padding(Spacing.xs)
-            .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
     }
 
@@ -73,6 +73,7 @@ struct PasswordOptionsView: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
+        .accessibilityLabel("Include \(label) characters")
         .onChange(of: isOn.wrappedValue) {
             onOptionChanged()
         }

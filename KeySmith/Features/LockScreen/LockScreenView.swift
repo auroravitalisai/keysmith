@@ -87,6 +87,8 @@ struct LockScreenView: View {
                 }
                 .buttonStyle(.brandSecondary)
                 .padding(.horizontal, Spacing.xxl)
+                .accessibilityLabel("Unlock with \(appState.biometricService.biometricName)")
+                .accessibilityHint("Authenticate using \(appState.biometricService.biometricName) to unlock the app")
             }
 
             Button("Use PIN") {
@@ -95,6 +97,8 @@ struct LockScreenView: View {
                 }
             }
             .foregroundStyle(Theme.textSecondary)
+            .accessibilityLabel("Use PIN")
+            .accessibilityHint("Switch to PIN entry to unlock the app")
         }
     }
 

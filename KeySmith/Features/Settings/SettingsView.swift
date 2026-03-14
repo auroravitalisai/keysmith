@@ -18,7 +18,6 @@ struct SettingsView: View {
             aboutSection
         }
         .scrollContentBackground(.hidden)
-        .glassEffect(.regular)
         .adaptiveGradientBackground()
         .adaptiveToolbarStyle()
         .navigationTitle("Settings")
@@ -42,6 +41,7 @@ struct SettingsView: View {
                 Label("Theme", systemImage: "circle.lefthalf.filled")
             }
             .pickerStyle(.segmented)
+            .accessibilityLabel("Appearance theme")
         }
     }
 
@@ -54,6 +54,8 @@ struct SettingsView: View {
             } label: {
                 Label("Change PIN", systemImage: "lock.rotation")
             }
+            .accessibilityLabel("Change PIN")
+            .accessibilityHint("Change your 6-digit unlock PIN")
 
             Toggle(isOn: Binding(
                 get: { appState.biometricEnabled },
@@ -62,6 +64,8 @@ struct SettingsView: View {
                 Label(appState.biometricService.biometricName, systemImage: appState.biometricService.biometricIcon)
             }
             .disabled(!appState.biometricService.isBiometricAvailable)
+            .accessibilityLabel("Enable \(appState.biometricService.biometricName)")
+            .accessibilityHint("Toggle biometric authentication for quick unlock")
 
             HStack {
                 Text("Clipboard auto-clear")
@@ -69,8 +73,13 @@ struct SettingsView: View {
                 Text("\(Int(clipboardTimeout))s")
                     .foregroundStyle(.secondary)
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Clipboard auto-clear duration: \(Int(clipboardTimeout)) seconds")
+
             Slider(value: $clipboardTimeout, in: 10...120, step: 10)
                 .tint(.accentColor)
+                .accessibilityLabel("Clipboard auto-clear duration")
+                .accessibilityValue("\(Int(clipboardTimeout)) seconds")
 
             Text("Passwords copied to clipboard are automatically cleared after this duration.")
                 .font(.caption)
@@ -87,6 +96,8 @@ struct SettingsView: View {
             } label: {
                 Label("Enable KeySmith Keyboard", systemImage: "keyboard")
             }
+            .accessibilityLabel("Enable KeySmith Keyboard")
+            .accessibilityHint("Opens setup guide for the keyboard extension")
 
             Button {
                 if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -95,6 +106,8 @@ struct SettingsView: View {
             } label: {
                 Label("Open Keyboard Settings", systemImage: "gear")
             }
+            .accessibilityLabel("Open Keyboard Settings")
+            .accessibilityHint("Opens system keyboard settings")
         }
     }
 

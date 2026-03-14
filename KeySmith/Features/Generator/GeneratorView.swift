@@ -2,6 +2,7 @@ import SwiftUI
 
 struct GeneratorView: View {
     @ObservedObject var store: PasswordStore
+    @EnvironmentObject var appState: AppState
 
     @State private var generatedPassword = ""
     @State private var selectedStrength: PasswordStrength = .strong
@@ -13,6 +14,7 @@ struct GeneratorView: View {
     @State private var copied = false
     @State private var showSaveSheet = false
     @State private var showEmptyPoolAlert = false
+    @State private var showSavedConfirmation = false
 
     var body: some View {
         ScrollView {
@@ -48,9 +50,42 @@ struct GeneratorView: View {
         .adaptiveToolbarStyle()
         .navigationTitle("Generator")
         .onAppear { if generatedPassword.isEmpty { generateNewPassword() } }
-        .sheet(isPresented: $showSaveSheet) {
+        .sheet(isPresented: $showSaveSheet, onDismiss: {
+            // Check if entries count increased (password was saved)
+            if store.entries.count > 0 {
+                showSavedConfirmation = true
+            }
+        }) {
             SavePasswordSheet(password: generatedPassword, store: store)
         }
+        .overlay(alignment: .bottom) {
+            if showSavedConfirmation {
+                HStack(spacing: Spacing.md) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Theme.success)
+                    Text("Password saved!")
+                        .font(.subheadline.weight(.medium))
+                    Spacer()
+                    Button("View in Vault") {
+                        showSavedConfirmation = false
+                        appState.selectedTab = 0
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                }
+                .padding()
+                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .padding(.horizontal)
+                .padding(.bottom, Spacing.xl)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        withAnimation { showSavedConfirmation = false }
+                    }
+                }
+            }
+        }
+        .animation(.spring(duration: 0.3), value: showSavedConfirmation)
         .alert("No Characters Selected", isPresented: $showEmptyPoolAlert) {
             Button("OK") {
                 includeLowercase = true
