@@ -64,10 +64,11 @@ class KeyboardViewController: UIInputViewController {
         generateAndDisplay()
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            applyAdaptiveColors()
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        // Register for trait changes using iOS 17+ API (traitCollectionDidChange is deprecated)
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (vc: KeyboardViewController, _: UITraitCollection) in
+            vc.applyAdaptiveColors()
         }
     }
 

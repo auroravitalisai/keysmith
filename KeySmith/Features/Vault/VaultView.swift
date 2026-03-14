@@ -4,6 +4,7 @@ struct VaultView: View {
     @ObservedObject var store: PasswordStore
     @State private var showAddSheet = false
     @State private var selectedEntry: PasswordEntry?
+    @AppStorage("clipboardTimeout") private var clipboardTimeout: Double = 30
 
     var body: some View {
         Group {
@@ -141,7 +142,7 @@ struct VaultView: View {
     private func copyToClipboard(_ text: String) {
         UIPasteboard.general.setItems(
             [[UIPasteboard.typeAutomatic: text]],
-            options: [.expirationDate: Date().addingTimeInterval(30)]
+            options: [.expirationDate: Date().addingTimeInterval(clipboardTimeout)]
         )
         HapticService.medium()
     }

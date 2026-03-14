@@ -235,7 +235,9 @@ class PasswordGenerator {
             var randomBytes = [UInt8](repeating: 0, count: bytesNeeded)
             let status = SecRandomCopyBytes(kSecRandomDefault, bytesNeeded, &randomBytes)
             guard status == errSecSuccess else {
-                return Int.random(in: 0..<upperBound)
+                // Fatal rather than falling back to non-cryptographic RNG.
+                // A password manager must never silently degrade randomness.
+                fatalError("SecRandomCopyBytes failed with status \(status) — cannot generate secure passwords")
             }
 
             var value: UInt64 = 0
@@ -249,48 +251,139 @@ class PasswordGenerator {
         }
     }
 
-    // MARK: - Embedded Word List (200 common English words for passphrases)
+    // MARK: - Embedded Word List (1030 words ≈ 10 bits/word for strong passphrases)
+    // Curated from common English words, 3-8 letters, no profanity, easy to spell.
 
     static let wordList: [String] = [
-        "abandon", "ability", "account", "achieve", "address",
-        "advance", "airport", "ancient", "animal", "answer",
-        "balance", "basket", "battle", "beauty", "beyond",
-        "blanket", "blossom", "bottle", "branch", "bridge",
-        "candle", "canyon", "captain", "castle", "center",
-        "chapter", "circle", "client", "closed", "cluster",
-        "coffee", "column", "comfort", "common", "corner",
-        "cotton", "country", "courage", "current", "custom",
-        "damage", "danger", "debate", "decade", "desert",
-        "detail", "dinner", "doctor", "domain", "double",
-        "dragon", "dream", "driver", "effort", "eleven",
-        "enable", "energy", "engine", "enough", "entire",
-        "escape", "estate", "evolve", "example", "export",
-        "fabric", "falcon", "family", "feline", "filter",
-        "finger", "flavor", "flower", "forest", "frozen",
-        "future", "galaxy", "garden", "gather", "gentle",
-        "ginger", "global", "golden", "govern", "growth",
-        "hammer", "harbor", "heaven", "hidden", "hollow",
-        "honey", "humble", "hunger", "hybrid", "impact",
-        "indoor", "infant", "insect", "island", "jacket",
-        "jungle", "kidney", "kitten", "ladder", "lament",
-        "launch", "legend", "lender", "lesson", "letter",
-        "lizard", "lumber", "magnet", "manage", "marble",
-        "market", "master", "meadow", "method", "middle",
-        "mirror", "mobile", "monkey", "mother", "mustard",
-        "nature", "needle", "nerve", "noble", "normal",
-        "notice", "number", "oblong", "obtain", "ocean",
-        "office", "onward", "orange", "output", "oxygen",
-        "palace", "panda", "patrol", "pencil", "permit",
-        "piano", "pillow", "planet", "pocket", "poetry",
-        "powder", "puzzle", "rabbit", "racing", "random",
-        "reason", "record", "rescue", "result", "ribbon",
-        "ripple", "rocket", "saddle", "salmon", "season",
-        "secret", "silver", "simple", "sketch", "social",
-        "spider", "spring", "square", "stable", "summer",
-        "supply", "switch", "symbol", "tablet", "talent",
-        "temple", "timber", "tissue", "tomato", "travel",
-        "trophy", "tunnel", "turtle", "umbrella", "unique",
-        "vacant", "valley", "vendor", "venture", "vessel",
-        "violet", "volume", "wallet", "wander", "window",
+        // A (40)
+        "abandon", "ability", "about", "above", "absent", "absorb", "account", "achieve", "acid", "across",
+        "action", "active", "adapt", "address", "admit", "adopt", "advance", "advice", "afford", "again",
+        "agent", "agree", "ahead", "alarm", "album", "alien", "almost", "alpha", "always", "amount",
+        "anchor", "ancient", "angel", "animal", "annual", "answer", "apart", "appeal", "apple", "arena",
+        // B (40)
+        "badge", "balance", "bamboo", "banana", "banner", "barrel", "basket", "battle", "beach", "beauty",
+        "become", "before", "begin", "behind", "belief", "below", "bench", "beyond", "bicycle", "blanket",
+        "blossom", "board", "bonus", "border", "bottle", "bottom", "bounce", "brain", "branch", "brave",
+        "bread", "bridge", "brief", "bright", "broken", "bronze", "brush", "bubble", "bucket", "bundle",
+        // C (48)
+        "cabin", "cable", "cactus", "camera", "campus", "candle", "canyon", "captain", "carbon", "carpet",
+        "castle", "casual", "catalog", "catch", "cattle", "caught", "cause", "caution", "ceiling", "cellar",
+        "center", "central", "cereal", "certain", "chair", "chance", "change", "chapter", "charge", "chart",
+        "cheese", "cherry", "chicken", "circle", "citizen", "client", "climate", "clinic", "clock", "cluster",
+        "coach", "coffee", "collect", "colony", "column", "comfort", "common", "coral",
+        // D (40)
+        "damage", "danger", "daring", "debate", "decade", "decent", "decide", "decline", "deliver", "demand",
+        "deny", "depart", "depend", "desert", "design", "detail", "detect", "develop", "device", "diamond",
+        "diesel", "digital", "dinner", "direct", "doctor", "dolphin", "domain", "donkey", "double", "dragon",
+        "dream", "dress", "drift", "driver", "dune", "during", "dust", "dutch", "dwarf", "dynamic",
+        // E (40)
+        "eagle", "early", "earth", "easily", "echo", "editor", "effort", "eight", "either", "elbow",
+        "elder", "elect", "eleven", "enable", "endure", "energy", "engine", "enjoy", "enough", "ensure",
+        "entire", "entry", "episode", "equal", "equip", "escape", "estate", "ethics", "evening", "evolve",
+        "exact", "example", "excess", "exhibit", "exile", "expand", "expect", "export", "expose", "extend",
+        // F (40)
+        "fabric", "facing", "factor", "falcon", "family", "famous", "fancy", "fantasy", "farmer", "fatal",
+        "feline", "fence", "ferry", "fetch", "fever", "fiber", "field", "figure", "filter", "final",
+        "finger", "finish", "fiscal", "fitness", "flame", "flavor", "flight", "float", "flower", "fluid",
+        "focus", "follow", "force", "forest", "forget", "formal", "fortune", "fossil", "frozen", "future",
+        // G (40)
+        "gadget", "galaxy", "gallery", "game", "garage", "garden", "garlic", "gather", "gauge", "general",
+        "genius", "gentle", "giant", "ginger", "glacier", "glad", "glass", "glimpse", "global", "glory",
+        "glove", "golden", "govern", "grace", "grain", "grape", "grass", "gravity", "green", "grocery",
+        "ground", "group", "growth", "guard", "guess", "guide", "guitar", "guru", "gym", "gypsum",
+        // H (40)
+        "habit", "half", "hammer", "hand", "happy", "harbor", "harvest", "hawk", "hazard", "health",
+        "heart", "heaven", "heavy", "hedgehog", "hello", "helmet", "hero", "hidden", "hiker", "hint",
+        "hobby", "hockey", "hollow", "home", "honey", "hood", "hope", "horizon", "horror", "horse",
+        "hotel", "hover", "huge", "human", "humble", "humor", "hundred", "hunger", "hybrid", "hymn",
+        // I (32)
+        "icon", "ignore", "image", "impact", "import", "impose", "improve", "impulse", "include", "income",
+        "indoor", "infant", "inform", "initial", "injury", "inmate", "inner", "input", "insect", "inside",
+        "install", "intact", "into", "invest", "invite", "iron", "island", "isolate", "issue", "item",
+        "ivory", "index",
+        // J-K (24)
+        "jacket", "jaguar", "janitor", "jargon", "jasmine", "jewel", "journey", "judge", "juice", "jumble",
+        "jungle", "junior", "kangaroo", "keen", "kernel", "kidney", "kind", "kingdom", "kitchen", "kitten",
+        "knife", "knock", "known", "koala",
+        // L (40)
+        "label", "labor", "ladder", "lament", "lamp", "laptop", "large", "later", "launch", "lava",
+        "layer", "leader", "learn", "legend", "lemon", "lender", "length", "lesson", "letter", "level",
+        "liberty", "library", "light", "limit", "liquid", "listen", "little", "lizard", "loan", "lobster",
+        "local", "logic", "lonely", "loop", "lottery", "lounge", "loyal", "lucky", "lumber", "lunar",
+        // M (40)
+        "machine", "magnet", "major", "mammal", "manage", "manual", "maple", "marble", "march", "margin",
+        "market", "marvel", "mask", "master", "matrix", "matter", "meadow", "media", "melody", "member",
+        "mental", "mercy", "method", "middle", "million", "mineral", "minor", "minute", "mirror", "mobile",
+        "model", "modify", "moment", "monkey", "monster", "month", "moral", "mother", "motion", "mustard",
+        // N (32)
+        "naive", "narrow", "nation", "nature", "naval", "near", "needle", "nerve", "network", "neutral",
+        "noble", "noise", "normal", "north", "notable", "nothing", "notice", "novel", "number", "nurse",
+        "nutmeg", "nylon", "napkin", "nasty", "native", "neck", "neglect", "nephew", "nest", "net",
+        "nice", "night",
+        // O (32)
+        "oasis", "object", "oblong", "obtain", "obvious", "occur", "ocean", "office", "olive", "onion",
+        "online", "onward", "opera", "option", "orange", "orbit", "orchard", "order", "organ", "orient",
+        "orphan", "ostrich", "other", "outdoor", "output", "oval", "owner", "oxygen", "oyster", "ozone",
+        "october", "often",
+        // P (48)
+        "paddle", "palace", "panda", "panel", "panic", "paper", "parade", "parent", "patrol", "pattern",
+        "pause", "peanut", "pencil", "people", "pepper", "perfect", "permit", "person", "phrase", "piano",
+        "picnic", "picture", "pillow", "pilot", "pink", "planet", "plastic", "plate", "pledge", "pluck",
+        "plunge", "pocket", "poetry", "point", "polar", "polish", "pond", "popular", "portion", "powder",
+        "power", "present", "pretty", "pride", "prison", "problem", "program", "puzzle",
+        // Q-R (40)
+        "quantum", "quarter", "queen", "query", "quick", "quiz", "quote", "rabbit", "raccoon", "racing",
+        "radar", "radio", "raise", "random", "range", "rapid", "raven", "razor", "reason", "rebel",
+        "record", "reform", "region", "regret", "regular", "relief", "remain", "remind", "remove", "render",
+        "repair", "rescue", "resist", "result", "return", "reveal", "ribbon", "ripple", "ritual", "rocket",
+        // S (56)
+        "saddle", "safari", "sailor", "salmon", "salon", "sample", "sand", "sauce", "scale", "scatter",
+        "scene", "scheme", "school", "scout", "screen", "script", "search", "season", "second", "secret",
+        "section", "select", "senior", "series", "settle", "seven", "shadow", "shallow", "shift", "ship",
+        "shoulder", "siege", "sight", "signal", "silent", "silver", "simple", "since", "sister", "sketch",
+        "skill", "slender", "slice", "smart", "social", "solar", "solid", "south", "spider", "spirit",
+        "spring", "square", "stable", "summer", "supply", "symbol",
+        // T (48)
+        "table", "tablet", "tackle", "talent", "target", "task", "taxi", "team", "temple", "tenant",
+        "tender", "tennis", "term", "test", "theme", "theory", "three", "throw", "thumb", "ticket",
+        "tiger", "timber", "tissue", "title", "toast", "today", "toilet", "token", "tomato", "tool",
+        "topic", "torch", "total", "tourist", "toward", "tower", "track", "trade", "traffic", "travel",
+        "tray", "trend", "trial", "trigger", "trophy", "truck", "tunnel", "turtle",
+        // U-V (32)
+        "ugly", "ultra", "umbrella", "unable", "uncle", "under", "unfair", "unfold", "unhappy", "uniform",
+        "unique", "unit", "universe", "unlock", "until", "unusual", "update", "upper", "vacant", "valley",
+        "valve", "vanish", "vapor", "vendor", "venture", "version", "vessel", "veteran", "viable", "violet",
+        "virtual", "volume",
+        // W-Z (32)
+        "wage", "wagon", "wallet", "walnut", "wander", "warfare", "warm", "warrior", "water", "wealth",
+        "weapon", "weather", "wedding", "welcome", "whale", "wheat", "whisper", "width", "wild", "window",
+        "winter", "wisdom", "witness", "wonder", "world", "worth", "wrap", "yard", "year", "zebra",
+        "zero", "zone",
+        // Additional words to reach 1024 (≈10 bits/word)
+        "abstract", "abuse", "accent", "access", "acquire", "actor", "actual", "adult", "affair", "angle",
+        "angry", "ankle", "april", "arch", "arctic", "army", "arrow", "asset", "attend", "august",
+        "atom", "aunt", "autumn", "avocado", "awake", "aware", "axis", "baby", "backup", "ballot",
+        "bacon", "bag", "bake", "ball", "band", "bank", "bar", "barn", "base", "basic",
+        "bean", "bear", "beef", "bell", "belt", "best", "betray", "bind", "bird", "bitter",
+        "blade", "blame", "blast", "bleak", "blend", "blind", "block", "blood", "bloom", "blur",
+        "boil", "bold", "bolt", "bomb", "bone", "book", "boost", "born", "boss", "both",
+        "bowl", "brand", "brass", "breeze", "brick", "bring", "broad", "brown", "bulk", "bullet",
+        "burden", "burger", "burn", "bus", "busy", "butter", "buyer", "cage", "cake", "calm",
+        "camp", "canal", "cancel", "candy", "canvas", "capable", "card", "cargo", "carry", "cart",
+        "case", "cash", "cast", "cave", "cement", "census", "chain", "chalk", "chaos", "cheap",
+        "chest", "chief", "child", "chimney", "choice", "chunk", "civil", "claim", "clap", "claw",
+        "clay", "clean", "clever", "cliff", "climb", "clip", "close", "cloth", "cloud", "clown",
+        "club", "clump", "coast", "code", "coil", "coin", "come", "comic", "company", "concert",
+        "conduct", "connect", "cook", "cool", "copper", "copy", "core", "corn", "correct", "cost",
+        "couch", "couple", "course", "cousin", "cover", "craft", "crane", "crash", "crater", "crawl",
+        "crazy", "cream", "crew", "crime", "crisp", "crop", "cross", "crowd", "cruel", "crush",
+        "cry", "crystal", "cube", "culture", "cup", "curve", "cute", "cycle", "dad", "daily",
+        "dance", "dark", "dash", "data", "dawn", "deal", "dear", "death", "debt", "decorate",
+        "deer", "define", "defy", "degree", "delay", "delta", "denial", "dentist", "deputy", "derive",
+        "desk", "dial", "dice", "diet", "differ", "dilemma", "dirt", "dish", "dismiss", "display",
+        "doll", "door", "dose", "dove", "draft", "drama", "draw", "drink", "drop", "drum",
+        "dry", "duck", "dumb", "duty", "eager", "earn", "east", "easy", "economy", "edge",
+        "edit", "educate", "egg", "elegant", "element", "elite", "else", "embark", "emerge", "emit",
+        "embody", "embrace", "employ", "empty", "enact", "enforce",
     ]
 }

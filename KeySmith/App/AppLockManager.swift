@@ -79,7 +79,8 @@ final class AppLockManager: ObservableObject {
 
         let inputHash = hashPIN(pin, salt: storedSalt)
 
-        if inputHash == storedHash {
+        // Constant-time comparison to prevent timing attacks
+        if constantTimeEqual(inputHash, storedHash) {
             failedAttempts = 0
             lockoutEndDate = nil
             return true
@@ -115,7 +116,7 @@ final class AppLockManager: ObservableObject {
         let pinData = Data(pin.utf8)
         var derivedKey = Data(count: 32)
 
-        derivedKey.withUnsafeMutableBytes { derivedKeyBytes in
+        _ = derivedKey.withUnsafeMutableBytes { derivedKeyBytes in
             salt.withUnsafeBytes { saltBytes in
                 pinData.withUnsafeBytes { pinBytes in
                     CCKeyDerivationPBKDF(
@@ -134,6 +135,17 @@ final class AppLockManager: ObservableObject {
         }
 
         return derivedKey
+    }
+
+    /// Constant-time comparison to prevent timing side-channel attacks on PIN hash.
+    /// Returns true only if both Data values have equal length and identical bytes.
+    private func constantTimeEqual(_ a: Data, _ b: Data) -> Bool {
+        guard a.count == b.count else { return false }
+        var result: UInt8 = 0
+        for (x, y) in zip(a, b) {
+            result |= x ^ y
+        }
+        return result == 0
     }
 
     // MARK: - Lockout

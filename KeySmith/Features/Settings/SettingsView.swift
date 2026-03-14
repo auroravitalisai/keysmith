@@ -3,7 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
     @State private var showSetupGuide = false
-    @State private var clipboardTimeout: Double = 30
+    @AppStorage("clipboardTimeout") private var clipboardTimeout: Double = 30
     @State private var showChangePIN = false
     @State private var showDeleteConfirm = false
 
